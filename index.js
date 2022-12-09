@@ -1,4 +1,4 @@
-const productos = []
+const products = []
 
 
 class ProductManager {
@@ -19,7 +19,7 @@ class ProductManager {
 
     addProduct() {
      
-        let producto = ({
+        let product = ({
 
             title: this.title,
             description: this.description,
@@ -32,13 +32,13 @@ class ProductManager {
         })
     
     
-    const verifiedCode = productos.find(element => element.code === producto.code)
+    const verifiedCode = products.find(element => element.code === product.code)
     
     if(verifiedCode) {
         console.log("Error")
     }
     else {
-        productos.push(producto)
+        products.push(product)
         ProductManager.id++ 
     }
 
@@ -47,11 +47,11 @@ class ProductManager {
     
 
     const getProducts = () => {
-      console.log(productos)
+      console.log(products)
     }
     const getProductById = (id) => {
 
-        const search = productos.find(producto => producto.id === id)
+        const search = products.find(product => product.id === id)
         if (search == undefined) {
             console.log( "No se encuentran productos con ese codigo")
       
