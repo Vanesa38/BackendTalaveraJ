@@ -76,15 +76,14 @@ const inCart = (id) => { return products.find (product =>product.title === title
     }
 
 
-    const MacBookPro13 = new ProductManager("MacBookPro", "potente", "500", "img", "10", "15")
+    const produ1 = new ProductManager("MacBookPro", "potente", "500", "img", "10", "15")
 
-    const MacBookPro14 = new ProductManager("MacBookPro", "veloz", "600", "img", "17", "20")
+    const produ2 = new ProductManager("MacBookPro", "veloz", "600", "img", "17", "20")
 
 
-    MacBookPro13.addProduct()
+    produ1.addProducts()
 
-    MacBookPro14.addProduct()
+    produ2.addProducts()
 
     getProducts()
-
     
