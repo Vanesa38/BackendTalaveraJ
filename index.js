@@ -17,9 +17,9 @@ class ProductManager {
       ProductManager.id
     }
 
-    addProduct() {
+    addProducts() {
      
-        let product = ({
+        const product = ({
 
             title: this.title,
             description: this.description,
@@ -34,16 +34,26 @@ class ProductManager {
     
     const verifiedCode = products.find(element => element.code === product.code)
     
-    if(verifiedCode) {
+    if(verifiedCode == true) {
         console.log("Error")
     }
     else {
         products.push(product)
         ProductManager.id++ 
     }
+    if (!product.title || !product.description || !product.price ||
+
+        !product.thumbnail || !product.code || !product.stock) {
+
+      throw new Error('Todos los campos son obligatorios');
+
+    }
+      
 
 } 
 } 
+
+const inCart = (id) => { return products.find (product =>product.title === title)}
     
 
     const getProducts = () => {
@@ -61,6 +71,10 @@ class ProductManager {
       }
     }
 
+    const inProducts = (title) => {
+        products.find (prod => prod.title === title)
+    }
+
 
     const MacBookPro13 = new ProductManager("MacBookPro", "potente", "500", "img", "10", "15")
 
@@ -73,4 +87,4 @@ class ProductManager {
 
     getProducts()
 
-    getProductById()
+    
