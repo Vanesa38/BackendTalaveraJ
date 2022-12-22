@@ -1,0 +1,19 @@
+{
+  "name": "desafio2",
+  "version": "1.0.0",
+  "description": "paquete para aprender file system",
+  "main": "desafio2.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "BackendTalaveraJ"
+  },
+  "keywords": [
+    "Jaquelina",
+    "talavera"
+  ],
+  "author": "",
+  "license": "ISC"
+}
