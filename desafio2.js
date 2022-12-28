@@ -132,7 +132,7 @@ deleteAll(){
 const newProdu = new ProductManager('productos.JSON');
 
 newProdu.updateProduct(1,{
-        title: "MacBookPro",
+        title: "MacBookPro13",
         description: "Potente y Veloz",
         price: 500,
         thumbnail: "img",
@@ -141,7 +141,7 @@ newProdu.updateProduct(1,{
 })
 
 newProdu.updateProduct(2,{
-       title: "MacBookPro",
+       title: "MacBookPro14",
        description: "Gran almacenamiento y velocidad",
        price: 600,
        thumbnail: "img",
