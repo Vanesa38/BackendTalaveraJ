@@ -45,9 +45,9 @@ class ProductManager {
         else {
             
             
-            listado.id = listado.length > 0 ? listado[listado.length - 1].id + 1 : 1;
+            product.id = listado.length > 0 ? listado[listado.length - 1].id + 1 : 1;
             listado.push(product)
-            this.writeData(data)
+            this.writeData(listado)
                              
         }
     }
@@ -148,5 +148,16 @@ newProdu.updateProduct(2,{
        code: 17,
        stock: 20,
 }) 
+
+newProdu.updateProduct(3,{
+    title: "Iphone 13 Pro Max",
+    description: "Gran capacidad de almacenamiento y velocidad",
+    price: 550,
+    thumbnail: "img",
+    code: 18,
+    stock:35
+}
+
+)
 
 
