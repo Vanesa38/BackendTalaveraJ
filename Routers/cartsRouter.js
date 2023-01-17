@@ -8,12 +8,12 @@ const cartsDb = JSON.parse(fs.readFileSync('./database/cart.JSON', 'utf-8'))
 routerCarts.post("/", (req, res) => {
 
     let cart = {
-      id: cartsDb.length == 0 ? 1 : cart.length + 1,
-      product: []
+      id: cartsDb.length == 0 ? 1 : cartsDb.length + 1,
+      products: []
     }
 
     cartsDb.push(cart)
-    fs.writeFileSync('/database/cart.JSON', JSON.stringify('cartsDb'))
+    fs.writeFileSync('/database/cart.JSON', JSON.stringify(cartsDb))
     res.send("Carrito creado");
 });
 
@@ -37,8 +37,6 @@ routerCarts.post("/:cid/product/:pid", (req, res) => {
     const carritoId = req.params.cid;
     const productoId = req.params.pid;
  
-    productoId.push(carritoId)
-
 
     const productPost = 
     {
@@ -64,7 +62,7 @@ routerCarts.post("/:cid/product/:pid", (req, res) => {
 
 
 
-    fs.writeFileSync ('Cart.JSON', JSON.stringify('cartsDb',null))
+    fs.writeFileSync ('cart.JSON', JSON.stringify(cartsDb))
 
     
     res.send("Producto Agregado")

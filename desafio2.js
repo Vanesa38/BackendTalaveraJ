@@ -129,35 +129,9 @@ deleteAll(){
 }
 }
 
-const newProdu = new ProductManager('productos.JSON');
+const newProdu = new ProductManager('./database/productos.JSON');
 
-newProdu.updateProduct(1,{
-        title: "MacBookPro13",
-        description: "Potente y Veloz",
-        price: 500,
-        thumbnail: "img",
-        code: 10,
-        stock: 15,
-})
 
-newProdu.updateProduct(2,{
-       title: "MacBookPro14",
-       description: "Gran almacenamiento y velocidad",
-       price: 600,
-       thumbnail: "img",
-       code: 17,
-       stock: 20,
-}) 
-
-newProdu.updateProduct(3,{
-    title: "Iphone 13 Pro Max",
-    description: "Gran capacidad de almacenamiento y velocidad",
-    price: 550,
-    thumbnail: "img",
-    code: 18,
-    stock:35
-}
-
-)
+module.exports = {newProdu}
 
 
