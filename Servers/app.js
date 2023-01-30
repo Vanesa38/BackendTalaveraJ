@@ -1,18 +1,28 @@
+import __dirname from './utils.js';
 import express from 'express'
 import handlebars from 'express-handlebars';
 import { Server } from 'socket.io';
 const app = express()
-const express = require ('express')
+
+import viewsRouter from './Routers/viewsRouter.js';
+
 
 //const ProductManager = require ('../desafio3')
 //const productManager = new ProductManager('./database/Productos.JSON')
 const PORT = 8080
 
 const socketServer=new Server(httpServer);
-app.listen(PORT, () => {
-    console.log (`Server running on port ${PORT}`)
-    })
+socketServer.on('connection', (socket) =>{
+    console.log ('nuevo user recibido');
+socket.on("message", async (data) =>
+{
+    let products = await readJson()
+    products.push({prod: data})
+    await writeJson(products)
+    socketServer.emit("paragraph" ,products);
+});  
 
+});
 const httpServer = app.listen(PORT, () => {
 
     console.log (`Server running on port ${PORT}`)
@@ -27,8 +37,8 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
 
-app.use('/api/carts', cartsRouter);
-app.use('/api/products', productsRouter);
+//app.use('/api/carts', cartsRouter);
+//app.use('/api/products', productsRouter);
 app.use('/', viewsRouter);
 
 
