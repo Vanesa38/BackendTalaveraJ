@@ -2,7 +2,7 @@ import __dirname from './utils.js';
 import express from 'express'
 import handlebars from 'express-handlebars';
 import { Server } from 'socket.io';
-const app = express()
+
 
 import viewsRouter from './Routers/viewsRouter.js';
 
