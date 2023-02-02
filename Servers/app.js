@@ -1,8 +1,8 @@
-import __dirname from './utils.js';
+import __dirname from '../public/utils.js';
 import express from 'express'
 import handlebars from 'express-handlebars';
 import { Server } from 'socket.io';
-
+const app = express()
 
 import viewsRouter from './Routers/viewsRouter.js';
 
@@ -10,6 +10,11 @@ import viewsRouter from './Routers/viewsRouter.js';
 //const ProductManager = require ('../desafio3')
 //const productManager = new ProductManager('./database/Productos.JSON')
 const PORT = 8080
+
+
+const httpServer = app.listen(PORT, () =>{
+    console.log('Server running on port ${PORT}')
+})
 
 const socketServer=new Server(httpServer);
 socketServer.on('connection', (socket) =>{
@@ -23,12 +28,7 @@ socket.on("message", async (data) =>
 });  
 
 });
-const httpServer = app.listen(PORT, () => {
-
-    console.log (`Server running on port ${PORT}`)
-        
-    })    
-
+//Express
 app.engine('handlebars',handlebars.engine());
 app.set('views',__dirname+'/views');
 app.set('view engine','handlebars');

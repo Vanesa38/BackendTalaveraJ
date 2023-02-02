@@ -1,93 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+<div>
 
-<style>
-        body {
-            background-color: #a9aaac;
-        }
-        .title {
-            font-family: Arial;
-            font-size: 28px;
-            margin: 0 0 25px;
-        }
-        form {
-            background-color: rgb(250, 226, 226);
-            border-radius: 20px;
-            padding: 30px 35px;
-            max-width: 400px;
-            margin-bottom: 30px;
-        }
+  <p>Welcome</p>
 
-         label {
-            display: block;
-            font-weight: 700;
-            margin-bottom: 5px;
-            font-family: Arial;
-        }
-        .input {
-            font-weight: 500;
-            padding: 0 20px;
-            height: 55px;
-            width: 100%;
-            border-radius: 12px;
-            background: rgb(245, 228, 228);
-            border: 2px solid #bdc0c7;
-            outline: none;
-        }
-        .btn {
-            height: 50px;
-            padding: 0 50px;
-            border: none;
-            background: #3d517a;
-            color: #fff;
-            border-radius: 8px;
-            font-weight: 700;
-            cursor: pointer;
-            font-family: Arial;
-            text-transform: uppercase;
-        }
-    </style>
-</head>
-<body>
-    <div style="background: rgb(38, 202, 234);">
-        <h1 style="text-align: center;">Productos</h1>
-        <h2 style="text-align: center;">Formulario</h2>
-    </div>
+  <input type="text" id="input"/>
 
+  <div id="paragraph"></div>
 
-    <div>
-        <form action="api/productos"  method="post">
-            <h3 class="title">Producto A Agregar</h3>
-            <div>
-                <label for="title">{{title}}</label>
-                <input class="input" type="text" id="title" name="title" required>
-            </div>
-            <div>
-                <label for="price">{{price}}</label>
-                <input class="input" type="number" id="price" min=0 name="price" required>
-            </div>
-                <div>
-                <label for="thumbnail">{{description}}</label>
-                <input type="FILE" id="thumbnail" name="thumbnail" required>
-            </div>
-            <div>
-                <label for="thumbnail">{{Thumbnail}}</label>
-                <input type="FILE" id="thumbnail" name="thumbnail" required>
-            </div>
-            <input type="hidden" name="form" value="1">
-            <button class="btn" id="submitButton" type="submit" value="Save product"> Add Product </button>
-        </form>
-    </div>
-</body>
-</html>
+</div>
 
+<script src="/[socket.io/socket.io.js"></script>
 
-
-<script src="/socket.io/socket.io.js"></script>
 <script src="realTimeProducts.js" type="application/javascript"></script>
     
