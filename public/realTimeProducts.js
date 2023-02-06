@@ -20,4 +20,4 @@ socket.on("paragraph", data =>{
         return `<span>Producto: ${product.title}</span>`
     })
     paragraph.innerHTML=html
-})
+});
