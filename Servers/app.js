@@ -19,14 +19,14 @@ const httpServer = app.listen(PORT, () =>{
 
 const socketServer=new Server(httpServer);
 const readJson = async () =>{
-    const data = await FileSystem.readFileSync("./database/Productos.Json", "utf-8");
+    const data = fs.readFileSync("./database/Productos.Json", "utf-8");
     const products = await JSON.parse(data);
     return products
 };
 
 const writeJson = async (data) => {
 const dataToWrite = await JSON.stringify(data, null, "\t");
-await fs.writeFileSync("./database/Productos.JSON, dataToWrite");
+await fs.writeFileSync("./database/Productos.JSON", dataToWrite);
 };
 
 socketServer.on('connection', (socket) =>{

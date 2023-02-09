@@ -17,14 +17,16 @@ viewsRouter.get ("/", async (req, res) => {
     res.render("home", {products} );
 });
 
-viewsRouter.get('/realtimeproducts', async (req, res)=>{
-    let products = fs.writeFileSync()
-
-    req.io.on('connection', socket=>{
-        console.log("Cliente conectado.");
-    })
-
-    res.render('realTimeProducts', {newProductToAdd});
+viewsRouter.get("/realtimeproducts", async (req, res)=>{
+    res.render("realTimeProducts", {});
 })
+
+
+    //let products = fs.writeFileSync()
+
+    //req.io.on('connection', socket=>{
+        //console.log("Cliente conectado.");
+   // })
+
 
 export default viewsRouter;
