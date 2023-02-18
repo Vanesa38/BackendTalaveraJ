@@ -3,14 +3,23 @@ import express from 'express'
 import handlebars from 'express-handlebars';
 import { Server } from 'socket.io';
 import fs from "fs";
-const app = express()
-
+import mongoose from 'mongoose';
+import * as dotenv from "dotenv";
+import { engine } from "express-handlebars";
+import productsRouter from "../Routers/productsRouter.js";
+import cartsRouter from "../Routers/cartsRouter.js";
 import viewsRouter from "../Routers/viewsRouter.js";
-
+const app = express()
+const PORT = 8080;
+dotenv.config();
 
 //const ProductManager = require ('../desafio3')
 //const productManager = new ProductManager('./database/Productos.JSON')
-const PORT = 8080
+
+const USER_MONGO = process.env.USER_MONGO;
+const PASS_MONGO = process.env.PASS_MONGO;
+const DB_MONGO = process.env.DB_MONGO;
+const STRING_CONNECTION = 'mongodb+srv://$¨{USER_MONGO}:${PASS_MONGO}@codercluster.cq7aous.mongodb.net/${DB_MONGO}?retryWrites=true&w=majority';
 
 
 const httpServer = app.listen(PORT, () =>{
@@ -47,11 +56,14 @@ app.set("view engine","handlebars");
 app.use(express.static(__dirname+"/public"));
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
-
-
-//app.use('/api/carts', cartsRouter);
-//app.use('/api/products', productsRouter);
+app.use('/api/carts', cartsRouter);
+app.use('/api/products', productsRouter);
 app.use("/", viewsRouter);
+
+app.set("view engine", "ejs");
+app.engine("handlebars", engine());
+app.set("view engine", "handlebars");
+app.set("views", "./views");
 
 
 //app.get ('/products', async (req,res)=>{
@@ -73,4 +85,7 @@ app.use("/", viewsRouter);
 //app.listen(PORT, () => {
 //console.log (`Servidor activo en el puerto ${PORT}`)
 //})
-
+mongoose.connect("mongodb://localhost:27017/test", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
