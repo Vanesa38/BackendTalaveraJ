@@ -1,6 +1,6 @@
-const express = require("express");
+import express from 'express';
 const routerCarts = express.Router();
-const fs = require("fs");
+import fs from 'fs';
 
 const cartsDb = JSON.parse(fs.readFileSync('./database/cart.JSON', 'utf-8'))
 
@@ -68,8 +68,7 @@ routerCarts.post("/:cid/product/:pid", (req, res) => {
     res.send("Producto Agregado")
     
 
-}
+});
 
-);
 
-module.exports =  routerCarts
+export default routerCarts

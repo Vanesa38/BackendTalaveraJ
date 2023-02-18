@@ -1,7 +1,7 @@
-const express = require("express");
+import express from 'express';
 const routerProducts = express.Router();
-const {newProdu} = require('../desafio2')
-const fs = require ('fs')
+//const {newProdu} = require('../desafio2')
+import fs from 'fs';
 
 
 
@@ -55,4 +55,4 @@ routerProducts.delete("/:pid", (req, res) => {
     res.send("Producto Eliminado")
 });
 
-module.exports = routerProducts
+export default routerProducts

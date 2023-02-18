@@ -9,8 +9,10 @@ import { engine } from "express-handlebars";
 import productsRouter from "../Routers/productsRouter.js";
 import cartsRouter from "../Routers/cartsRouter.js";
 import viewsRouter from "../Routers/viewsRouter.js";
+
+
 const app = express()
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
 dotenv.config();
 
 //const ProductManager = require ('../desafio3')
@@ -19,12 +21,13 @@ dotenv.config();
 const USER_MONGO = process.env.USER_MONGO;
 const PASS_MONGO = process.env.PASS_MONGO;
 const DB_MONGO = process.env.DB_MONGO;
-const STRING_CONNECTION = 'mongodb+srv://$¨{USER_MONGO}:${PASS_MONGO}@codercluster.cq7aous.mongodb.net/${DB_MONGO}?retryWrites=true&w=majority';
+
 
 
 const httpServer = app.listen(PORT, () =>{
     console.log(`Server running on port ${PORT}`)
 })
+
 
 const socketServer=new Server(httpServer);
 const readJson = async () =>{
@@ -58,7 +61,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use('/api/carts', cartsRouter);
 app.use('/api/products', productsRouter);
-app.use("/", viewsRouter);
+app.use("/views", viewsRouter);
 
 app.set("view engine", "ejs");
 app.engine("handlebars", engine());
@@ -85,7 +88,25 @@ app.set("views", "./views");
 //app.listen(PORT, () => {
 //console.log (`Servidor activo en el puerto ${PORT}`)
 //})
-mongoose.connect("mongodb://localhost:27017/test", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+
+const environment = async () => {
+    try {
+      await mongoose.connect (
+        'mongodb+srv://$¨{USER_MONGO}:${PASS_MONGO}@codercluster.cq7aous.mongodb.net/${DB_MONGO}?retryWrites=true&w=majority',
+  
+      );
+      console.log("Conectado a la base de datos");
+    } catch (error) {
+      console.log(`Error al conectar a a la base de datos: ${error}`);
+    }
+  };
+  
+  
+  const isValidStartDB = () => {
+    if (USER_MONGO&& PASS_MONGO) return true;
+    else return false;
+  };
+  
+  
+  console.log("isValidStartDB", isValidStartDB());
+  isValidStartDB() && environment();
