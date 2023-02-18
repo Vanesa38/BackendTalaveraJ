@@ -92,10 +92,10 @@ app.set("views", "./views");
 const environment = async () => {
     try {
       await mongoose.connect (
-        'mongodb+srv://$¨{USER_MONGO}:${PASS_MONGO}@codercluster.cq7aous.mongodb.net/${DB_MONGO}?retryWrites=true&w=majority',
+        `mongodb+srv://$¨{USER_MONGO}:${PASS_MONGO}@codercluster.cq7aous.mongodb.net/${DB_MONGO}?retryWrites=true&w=majority`,
   
       );
-      console.log("Conectado a la base de datos");
+      console.log(`Conectado a la base de datos`);
     } catch (error) {
       console.log(`Error al conectar a a la base de datos: ${error}`);
     }
