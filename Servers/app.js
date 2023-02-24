@@ -9,6 +9,11 @@ import { engine } from "express-handlebars";
 import productsRouter from "../Routers/productsRouter.js";
 import cartsRouter from "../Routers/cartsRouter.js";
 import viewsRouter from "../Routers/viewsRouter.js";
+import loginRouter from "../Routers/loginRouter.js"
+import signupRouter from "../Routers/signupRouter.js"
+import sesionsRouter from "../Routers/sesionsRouter.js";
+import session from 'express-session';
+import MongoStore from 'connect-mongo';
 
 
 const app = express()
@@ -62,6 +67,18 @@ app.use(express.urlencoded({extended:true}));
 app.use('/api/carts', cartsRouter);
 app.use('/api/products', productsRouter);
 app.use("/views", viewsRouter);
+app.use("/login", loginRouter )
+app.use("/signup", signupRouter)
+app.use('/api/sessions/', sesionsRouter);
+app.use(session({
+  store: MongoStore.create({
+      mongoUrl:`mongodb+srv://${USER_MONGO}:${PASS_MONGO}@codercluster.cq7aous.mongodb.net/${DB_MONGO}?retryWrites=true&w=majority`,
+      mongoOptions:{useNewUrlParser:true,useUnifiedTopology:true},
+      ttl:15
+  }),
+  resave:true,
+  saveUninitialized:true
+}))
 
 app.set("view engine", "ejs");
 app.engine("handlebars", engine());
@@ -106,6 +123,12 @@ const environment = async () => {
     if (USER_MONGO&& PASS_MONGO) return true;
     else return false;
   };
+
+  app.use((req, res, next)=>{     
+    res.locals.session = req.session;
+    next();
+  })
+  
   
   
   console.log("isValidStartDB", isValidStartDB());

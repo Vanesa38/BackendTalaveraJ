@@ -198,7 +198,7 @@ class ProductsManager {
 
 
   updateProduct(id, product) {
-    // const result =  await productsModel.findByIdAndUpdate(id,product)
+   
     return productsModel.find({ _id: id }).updateMany(product);
   }
 
@@ -208,5 +208,5 @@ class ProductsManager {
   }
 }
 
-// Exporting objects.
-export default { CartsManager };
+
+export default { CartsManager, ProductsManager };
