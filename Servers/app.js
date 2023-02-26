@@ -17,11 +17,10 @@ import MongoStore from 'connect-mongo';
 
 
 const app = express()
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.SERVER_PORT || 8080;
 dotenv.config();
 
-//const ProductManager = require ('../desafio3')
-//const productManager = new ProductManager('./database/Productos.JSON')
+
 
 const USER_MONGO = process.env.USER_MONGO;
 const PASS_MONGO = process.env.PASS_MONGO;

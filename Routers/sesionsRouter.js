@@ -33,7 +33,7 @@ sesionsRouter.post("/login", async (req, res)=>{
     res.redirect('/api/productsDB');
 })
 
-sessionsRouter.get('/logout', (req, res)=>{
+sesionsRouter.get('/logout', (req, res)=>{
     req.session.destroy(err=>{
         if(err) res.send({status:'error', message:'Error al cerrar la sesión: '+err});
 

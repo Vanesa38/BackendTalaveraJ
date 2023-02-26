@@ -1,212 +1,108 @@
 import cartModel from "../models/cart.js";
 import productModel from "../models/product.js";
 
-const cartsModel = cartModel;
-const productsModel = productModel;
-
-class CartsManager {
-  getCarts(a) {
-    if (a === undefined) {
-      return cartsModel.find();
+class CartManager {
+  async read() {
+    try {
+      const carts = await cartModel.find();
+      return carts;
+    } catch (err) {
+      throw err;
     }
-    return cartsModel.find().limit(a);
   }
 
-
-  getCartById(id) {
-    return cartsModel.find({ _id: id });
-  }
-
-
-  addCart(arr) {
-    return cartsModel.create(arr);
-  }
-
-  
-  async updateCartProducts(cid, pid) {
-    let ind;
-    const cart = await cartsModel.find({ _id: cid });
-    const newProd = { product: pid, quantity: 1 };
-    const Nproducts = cart[0].products;
-
-    Nproducts.forEach((element, index) => {
-      if (pid === element.product._id.toJSON()) {
-        ind = index;
-      }
-    });
-
-    if (!isNaN(ind)) {
-      Nproducts[ind].quantity++;
-    } else {
-      Nproducts.push(newProd);
+  async create() {
+    try {
+      const newCart = new cartModel();
+      await newCart.save();
+      return newCart;
+    } catch (err) {
+      throw err;
     }
-
-    const result = cartsModel
-      .find({ _id: cid })
-      .updateMany({ products: Nproducts });
-    return result;
   }
-
- 
-  deleteCart(id) {
-    return cartsModel.deleteOne({ _id: id });
-  }
-
-
-  async deleteCartProduct(cid, pid) {
-    let ind;
-    const cart = await cartsModel.find({ _id: cid });
-    const Nproducts = cart[0].products;
-    Nproducts.forEach((element, index) => {
-      if (pid === element.product._id.toJSON()) {
-        ind = index;
-      }
-    });
-
-    if (!isNaN(ind)) {
-      Nproducts.splice(ind, 1);
-      const result = cartsModel
-        .find({ _id: cid })
-        .updateMany({ products: Nproducts });
+  async delete(cartId) {
+    try {
+      const result = await cartModel.findByIdAndDelete(cartId);
       return result;
+    } catch (err) {
+      throw err;
     }
   }
-
- 
-  updateCart(cid, products) {
-    const result = cartsModel
-      .find({ _id: cid })
-      .updateMany({ products: products });
-    return result;
-  }
-
- 
-  async updateProductQuantity(cid, pid, qty) {
-    let ind;
-    const cart = await cartsModel.find({ _id: cid });
-    const Nproducts = cart[0].products;
-    Nproducts.forEach((element, index) => {
-      if (pid === element.product._id.toJSON()) {
-        ind = index;
-      }
-    });
-
-    if (!isNaN(ind)) {
-      Nproducts[ind].quantity = qty.quantity;
-      const result = cartsModel
-        .find({ _id: cid })
-        .updateMany({ products: Nproducts });
-      return result;
-    }
-  }
-
-
-  deleteCartProducts(cid) {
-    const result = cartsModel.find({ _id: cid }).updateMany({ products: [] });
-    return result;
-  }
-}
-
-class ProductsManager {
-  getProducts(a) {
-    if (a === undefined) {
-      return productsModel.find();
-    }
-    return productsModel.find().limit(a);
-  }
-
-
-  getProductsPag(category, stock, page, limit, sort, url) {
-    let query;
-    let prevURL;
-    let nextURL;
-    console.log(url);
-    if (sort === "asc") {
-      sort = 1;
-    } else if (sort === "desc") {
-      sort = -1;
-    }
-
-    if (category != undefined || stock != undefined) {
-      if (category != undefined) {
-        query = { category: category };
-      } else {
-        query = { stock: stock };
-      }
-    } else {
-      query = {};
-    }
-
-    return productsModel.paginate(
-      query,
-      {
-        page: page,
-        limit: limit,
-        sort: { price: sort },
-      },
-      (err, res) => {
-        res.hasPrevPage
-          ? (prevURL = url.replace(`page=${res.page}`, `page=${res.prevPage}`))
-          : null;
-        res.hasNextPage
-          ? (nextURL = url.replace(`page=${res.page}`, `page=${res.nextPage}`))
-          : null;
-        return {
-          status: res.docs.length != 0 ? "success" : "error",
-          payload: res.docs,
-          totalPages: res.totalPages,
-          prevPage: res.prevPage,
-          nextPage: res.nextPage,
-          page: res.page,
-          hasPrevPage: res.hasPrevPage,
-          hasNextPage: res.hasNextPage,
-          prevLink: prevURL,
-          nextLink: nextURL,
-        };
-      }
-    );
-  }
-
-
-  getProductById(id) {
-    return productsModel.find({ _id: id });
-  }
-
-  
-  addProducts(
-    title,
-    description,
-    code,
-    price,
-    status,
-    stock,
-    category,
-    thumbnail
-  ) {
-    const product = {
-      title: title,
-      description: description,
-      code: code,
-      price: price,
-      status: status,
-      stock: stock,
-      category: category,
-      thumbnail: thumbnail,
+  async update(cartId, product) {
+    const myProduct = {
+      _id: product._id,
+      quantity: 1,
     };
-    productsModel.create(product);
-  }
+    try {
+      const result = await cartModel.find({ _id: cartId });
+      console.log(result[0]);
 
+      if (result[0].products.length === 0) {
+        result[0].products.push(myProduct);
+        const resultSave = await cartModel.findByIdAndUpdate(cartId, {
+          products: result[0].products,
+        });
+        return resultSave;
 
-  updateProduct(id, product) {
-   
-    return productsModel.find({ _id: id }).updateMany(product);
-  }
-
-
-  deleteProduct(id) {
-    return productsModel.deleteOne({ _id: id });
+      
+      } else {
+        const index = result[0].products.findIndex(
+          (product) => product._id === myProduct._id
+        );
+        if (index === -1) {
+          result[0].products.push(myProduct);
+          const resultSave = await cartModel.findByIdAndUpdate(cartId, {
+            products: result[0].products,
+          });
+          return resultSave;
+        } else {
+          result[0].products[index].quantity += 1;
+          const resultSave = await cartModel.findByIdAndUpdate(cartId, {
+            products: result[0].products,
+          });
+          return resultSave;
+        }
+      }
+    } catch (err) {
+      throw err;
+    }
   }
 }
 
+class ProductManager {
+  async read() {
+    try {
+      const products = await productModel.find();
+      return products;
+    } catch (err) {
+      throw err;
+    }
+  }
 
-export default { CartsManager, ProductsManager };
+  async create(product) {
+    try {
+      const newProduct = new productModel(product);
+      await newProduct.save();
+      return newProduct;
+    } catch (err) {
+      throw err;
+    }
+  }
+  async delete(productId) {
+    try {
+      const result = await productModel.findByIdAndDelete(productId);
+      return result;
+    } catch (err) {
+      throw err;
+    }
+  }
+  async update(productId, product) {
+    try {
+      const result = await productModel.findByIdAndUpdate(productId, product);
+      return result;
+    } catch (err) {
+      throw err;
+    }
+  }
+}
+export { CartManager, ProductManager };
