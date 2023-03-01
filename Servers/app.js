@@ -64,7 +64,7 @@ app.use(express.static(__dirname+"/public"));
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use('/api/carts', cartsRouterDB);
-app.use('/api/products', productsRouterDB);
+app.use('/api/productsdb', productsRouterDB);
 app.use("/views", viewsRouter);
 app.use("/login", loginRouter )
 app.use("/signup", signupRouter)

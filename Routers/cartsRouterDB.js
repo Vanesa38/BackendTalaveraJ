@@ -4,7 +4,7 @@ import { CartManager } from "../src/Class/dataBaseManager.js";
 
 const cartsRouter = Router();
 
-const CartManager = new CartManager();
+const CartsManager = new CartManager();
 
 //cartsRouter.get("/", async (req, res) => {
  // try {
