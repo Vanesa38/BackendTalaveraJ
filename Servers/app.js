@@ -6,8 +6,8 @@ import fs from "fs";
 import mongoose from 'mongoose';
 import * as dotenv from "dotenv";
 import { engine } from "express-handlebars";
-import productsRouter from "../Routers/productsRouter.js";
-import cartsRouter from "../Routers/cartsRouter.js";
+import productsRouterDB from "../Routers/productsRouterDB.js";
+import cartsRouterDB from "../Routers/cartsRouterDB.js";
 import viewsRouter from "../Routers/viewsRouter.js";
 import loginRouter from "../Routers/loginRouter.js"
 import signupRouter from "../Routers/signupRouter.js"
@@ -63,8 +63,8 @@ app.set("view engine","handlebars");
 app.use(express.static(__dirname+"/public"));
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
-app.use('/api/carts', cartsRouter);
-app.use('/api/products', productsRouter);
+app.use('/api/carts', cartsRouterDB);
+app.use('/api/products', productsRouterDB);
 app.use("/views", viewsRouter);
 app.use("/login", loginRouter )
 app.use("/signup", signupRouter)
@@ -108,7 +108,7 @@ app.set("views", "./views");
 const environment = async () => {
     try {
       await mongoose.connect (
-        `mongodb+srv://$¨{USER_MONGO}:${PASS_MONGO}@codercluster.cq7aous.mongodb.net/${DB_MONGO}?retryWrites=true&w=majority`,
+        `mongodb+srv://${USER_MONGO}:${PASS_MONGO}@codercluster.cq7aous.mongodb.net/${DB_MONGO}?retryWrites=true&w=majority`,
   
       );
       console.log(`Conectado a la base de datos`);

@@ -1,10 +1,10 @@
 import { Router } from "express";
-import dataBaseManager from "../src/Class/dataBaseManager.js";
+import { CartManager } from "../src/Class/dataBaseManager.js";
 
 
 const cartsRouter = Router();
 
-const CartsManager = new dataBaseManager.CartsManager();
+const CartManager = new CartManager();
 
 //cartsRouter.get("/", async (req, res) => {
  // try {
@@ -113,4 +113,4 @@ cartsRouter.put("/:id", async (req, res) => {
 });*/
 
 
-export default Router;
+export default cartsRouter;
