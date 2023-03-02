@@ -17,6 +17,7 @@ router.post("/", async (req, res) => {
         password,
         age,
     })
+    await newUser.save()
     res.status(201).json({message:"Usuario creado", data:newUser})
 }catch (error) {
 res.status(500).json({error:error.message})

@@ -68,7 +68,7 @@ app.use('/api/productsdb', productsRouterDB);
 app.use("/views", viewsRouter);
 app.use("/login", loginRouter )
 app.use("/signup", signupRouter)
-app.use('/api/sessions/', sesionsRouter);
+app.use('/api/sesions/', sesionsRouter);
 app.use(session({
   store: MongoStore.create({
       mongoUrl:`mongodb+srv://${USER_MONGO}:${PASS_MONGO}@codercluster.cq7aous.mongodb.net/${DB_MONGO}?retryWrites=true&w=majority`,
@@ -81,7 +81,6 @@ app.use(session({
 
 app.set("view engine", "ejs");
 app.engine("handlebars", engine());
-app.set("view engine", "handlebars");
 app.set("views", "./views");
 
 

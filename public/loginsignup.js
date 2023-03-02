@@ -26,21 +26,25 @@ elementExists("signup") &&
         const age = document.getElementById("age").value;
 if(!first_name || !last_name|| !email||!password||!age){
 }else {
-    fetch("/signup", {
+    fetch("/login", {
         method: "POST",
         headers: {
         "Content-Type": "application/json",
     },
         body: JSON.stringify({
-            first_name,
-            last_name,
-            email,
+            username,
             password,
-            age  
+            
         }),
     })
         .then((response) => response.json())
-        .then((data) => console.log(data))
+        .then((data) =>
+        data.message === "logged in"
+        ? (window.location.href = "/api/productsDB")
+
+        : alert("Algo ha pasado")
+   
+      )
         .catch((error) => console.error(error));
 }
     });
