@@ -5,12 +5,25 @@ elementExists("send") &&
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
 
-    fetch(`/login?username=${username}&password=${password}`, {});
-    console.log("Usuario Logueado")
+    fetch(`/login`, {
+        method: "POST",
+        headers:{
+            "content-type": "application/json",
+        },
+        body: JSON.stringify({
+
+            username,
+            password,
+        }),
+    })
         .then((response) => response.json())
-        .then((data) => data.message =="success" ? window.location.href="/api/productsDB" : alert ("algo ha pasado"))
+        .then((data) => data.message =="success" 
+        ? (window.location.href="/api/productsDB")
+        : alert ("algo ha pasado")
+        )
         .catch((error) => console.error(error));
-    });
+});
+    
 
 document.getElementById("ingreso").addEventListener("click", function(){
     window.location.href="/login"
@@ -32,15 +45,18 @@ if(!first_name || !last_name|| !email||!password||!age){
         "Content-Type": "application/json",
     },
         body: JSON.stringify({
-            username,
-            password,
+           first_name,
+           last_name,
+           email,
+           password,
+           age,
             
         }),
     })
         .then((response) => response.json())
         .then((data) =>
         data.message === "logged in"
-        ? (window.location.href = "/api/productsDB")
+        ? (window.location.href = "/login")
 
         : alert("Algo ha pasado")
    

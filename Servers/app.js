@@ -14,6 +14,10 @@ import signupRouter from "../Routers/signupRouter.js"
 import sesionsRouter from "../Routers/sesionsRouter.js";
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
+import passport from 'passport';
+import initializePassport from '../config/passportConfig.js';
+import forgotRoutes from "../Routers/forgotRoutes.js"
+
 
 
 const app = express()
@@ -60,6 +64,7 @@ socket.on("message", async (data) => {
 app.engine("handlebars",handlebars.engine());
 app.set("views",__dirname+"/public/views");
 app.set("view engine","handlebars");
+app.set("views", "./views");
 app.use(express.static(__dirname+"/public"));
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
@@ -69,19 +74,25 @@ app.use("/views", viewsRouter);
 app.use("/login", loginRouter )
 app.use("/signup", signupRouter)
 app.use('/api/sesions/', sesionsRouter);
+app.use('/logout', sesionsRouter)
+app.use('/forgot', forgotRoutes)
 app.use(session({
   store: MongoStore.create({
       mongoUrl:`mongodb+srv://${USER_MONGO}:${PASS_MONGO}@codercluster.cq7aous.mongodb.net/${DB_MONGO}?retryWrites=true&w=majority`,
       mongoOptions:{useNewUrlParser:true,useUnifiedTopology:true},
       ttl:15
   }),
+  secret:'BackendTalavera',
   resave:true,
   saveUninitialized:true
 }))
 
-app.set("view engine", "ejs");
-app.engine("handlebars", engine());
-app.set("views", "./views");
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+
 
 
 //app.get ('/products', async (req,res)=>{

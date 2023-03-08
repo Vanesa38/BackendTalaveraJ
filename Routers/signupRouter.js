@@ -1,5 +1,6 @@
 import { Router } from "express";
 import userModel from "../src/models/userModel.js";
+import { createHash } from "../utils.js";
 
 const router = Router();
 
@@ -14,7 +15,7 @@ router.post("/", async (req, res) => {
         first_name,
         last_name,
         email,
-        password,
+        password: createHash(password),
         age,
     })
     await newUser.save()

@@ -18,10 +18,10 @@ router.post("/", async (req, res) => {
         const response = await userModel.findOne({email:username, password:password});
         if(response == admin) {
         userModel.rol = "Administrador"
-        res.status(200).json({message:"logged in", data:response})
+        res.status(200).json({message:"success", data:response})
     
     } else if (response){
-        res.status(200).json({message:"logged in", data:response})
+        res.status(200).json({message:"success", data:response})
      
     }else {
         res.status(400).json({message:"error", data:"Usuario no encontrado"})
