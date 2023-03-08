@@ -6,16 +6,16 @@ const cartsRouter = Router();
 
 const CartsManager = new CartManager();
 
-//cartsRouter.get("/", async (req, res) => {
- // try {
-   // const limit = req.query.limit;
-//res.send(await CartManager.getCarts(limit));
- // } catch (err) {
-   // res.status(500).send(err.message);
-    //const error = err.message;
-  //  console.log(error);
- // }
-//});
+cartsRouter.get("/", async (req, res) => {
+  try {
+    const limit = req.query.limit;
+res.send(await CartManager.getCarts(limit));
+  } catch (err) {
+    res.status(500).send(err.message);
+    const error = err.message;
+    console.log(error);
+  }
+});
 
 
 cartsRouter.get("/", async (req, res) => {
@@ -40,21 +40,18 @@ cartsRouter.post("/", async (req, res) => {
 });
 
 
-//cartsRouter.post("/:cid/:pid", async (req, res) => {
-  //try {
-    //const cid = req.params.cid;
-    //const pid = req.params.pid;
-    //const result = await CartsManager.updateCartProducts(cid, pid);
-    //res.send({
-      //message: "Products in cart successfully updated",
-     // acknowledged: result.acknowledged,
-    //});
-  //} catch (err) {
-    //res.status(500).send("Cart not found");
-    //const error = err.message;
-    //console.log(error);
-  //}
-//});
+cartsRouter.post('/:cid/product/:pid', async (req, res)=>{
+  try {
+      let productId = req.params.pid;
+      let cartId = req.params.cid;
+  
+      await cartManager.update(cartId, productId);
+  
+      res.send({status: 'success', message: "Producto cargado con exito al carrito"});
+  } catch (error) {
+      res.status(404).send({status:'error', message: error.message});
+  }
+})
 
 cartsRouter.delete("/:id", async (req, res) => {
   const { id } = req.params;
@@ -68,20 +65,20 @@ cartsRouter.delete("/:id", async (req, res) => {
 });
 
 
-//cartsRouter.delete("/:cid/products/:pid", async (req, res) => {
-  //try {
-    //const id = req.params.cid;
-    //const pid = req.params.pid;
-    //const result = await CartsManager.deleteCartProduct(id, pid);
-    //res
-      //.status(200)
-     // .send({ message: "Product deleted", acknowledged: result.acknowledged });
- // } catch (err) {
-    //res.status(500).send("Product not found");
-    //const error = err.message;
-    //console.log(error);
- // }
-//});
+cartsRouter.delete("/:cid/products/:pid", async (req, res) => {
+  try {
+    const id = req.params.cid;
+    const pid = req.params.pid;
+    const result = await CartsManager.deleteCartProduct(id, pid);
+    res
+      .status(200)
+      .send({ message: "Product deleted", acknowledged: result.acknowledged });
+  } catch (err) {
+    res.status(500).send("Product not found");
+    const error = err.message;
+    console.log(error);
+  }
+});
 
 
 cartsRouter.put("/:id", async (req, res) => {
@@ -95,7 +92,7 @@ cartsRouter.put("/:id", async (req, res) => {
   }
 });
 
-/*cartsRouter.put("/:cid/products/:pid", async (req, res) => {
+cartsRouter.put("/:cid/products/:pid", async (req, res) => {
   try {
     const id = req.params.cid;
     const pid = req.params.pid;
@@ -110,7 +107,7 @@ cartsRouter.put("/:id", async (req, res) => {
     const error = err.message;
     console.log(error);
   }
-});*/
+});
 
 
 export default cartsRouter;

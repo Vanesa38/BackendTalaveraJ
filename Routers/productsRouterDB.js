@@ -6,11 +6,65 @@ const router = Router();
 const productManager = new ProductManager();
 
 router.get("/", async (req, res) => {
+  const stock = req.query.stock;
+  const page = req.query.page;
+  const limit = req.query.limit || 10;
+  const sort = req.query.sort || 1;
+  let query;
+  let prevURL;
+  let nextURL;
+
+  const url = req.protocol + "://" + req.get("host") + req.originalUrl;
+  const category = req.query.category;
+  if (category != undefined || stock != undefined) {
+    if (category != undefined) {
+      query = { category: category };
+    } else {
+      query = { stock: stock };
+    }
+  } else {
+    if (category != undefined && stock != undefined) {
+      query = { category: category, stock: stock };
+    } else {
+      query = {};
+    }
+  }
   try {
-    const product = await productManager.read();
-    res.send({ productos: product });
+    const respuesta = await productModel.paginate(
+      query,
+      {
+        page: page || 1,
+        limit: limit,
+        sort: { price: sort },
+      },
+      (err, res) => {
+        res.hasPrevPage
+          ? (prevURL = url.replace(`page=${res.page}`, `page=${res.prevPage}`))
+          : null;
+        res.hasNextPage
+          ? (nextURL =
+              page == undefined
+                ? url.concat(`&page=${res.nextPage}`)
+                : url.replace(`page=${res.page}`, `page=${res.nextPage}`))
+          : null;
+        return {
+          status: res.docs.length != 0 ? "success" : "error",
+          payload: res.docs,
+          totalPages: res.totalPages,
+          prevPage: res.prevPage,
+          nextPage: res.nextPage,
+          page: res.page,
+          hasPrevPage: res.hasPrevPage,
+          hasNextPage: res.hasNextPage,
+          prevLink: prevURL,
+          nextLink: nextURL,
+        };
+      }
+    );
+    res.render("products", {products:respuesta})
   } catch (err) {
-    res.status(500).send(err.message);
+    console.log(err);
+    res.send(err);
   }
 });
 
