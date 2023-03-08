@@ -9,7 +9,7 @@ const admin = {
 const router = Router();
 
 router.get("/", async (req, res) => {
-    res.render("login", { style: "css/login.css" });
+    res.render("login");
 });
 
 router.post("/", async (req, res) => {

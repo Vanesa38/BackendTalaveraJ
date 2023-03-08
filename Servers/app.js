@@ -21,7 +21,7 @@ import forgotRoutes from "../Routers/forgotRoutes.js"
 
 
 const app = express()
-const PORT = process.env.SERVER_PORT || 8080;
+const PORT = 8080;
 dotenv.config();
 
 
@@ -64,18 +64,20 @@ socket.on("message", async (data) => {
 app.engine("handlebars",handlebars.engine());
 app.set("views",__dirname+"/public/views");
 app.set("view engine","handlebars");
+app.set("/public/views");
 app.set("views", "./views");
 app.use(express.static(__dirname+"/public"));
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
-app.use('/api/carts', cartsRouterDB);
-app.use('/api/productsdb', productsRouterDB);
-app.use("/views", viewsRouter);
-app.use("/login", loginRouter )
-app.use("/signup", signupRouter)
+app.use("/api/carts", cartsRouterDB);
+app.use("/productsdb", productsRouterDB);
+app.use("/", viewsRouter);
+app.use("/login", loginRouter );
+app.use ("/" , loginRouter);
+app.use("/signup", signupRouter);
 app.use('/api/sesions/', sesionsRouter);
-app.use('/logout', sesionsRouter)
-app.use('/forgot', forgotRoutes)
+app.use('/logout', sesionsRouter);
+app.use('/forgot', forgotRoutes);
 app.use(session({
   store: MongoStore.create({
       mongoUrl:`mongodb+srv://${USER_MONGO}:${PASS_MONGO}@codercluster.cq7aous.mongodb.net/${DB_MONGO}?retryWrites=true&w=majority`,
