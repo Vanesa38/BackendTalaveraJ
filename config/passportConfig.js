@@ -37,7 +37,7 @@ const initializePassport = () => {
     
     passport.use('login', new localStrategy({usernameField:'email'}, async (username, password, done)=>{
             try {
-                const user = await userModel.findOne(username);
+                const user = await userModel.findOne({email:username});
                 if(!user){
                     console.log("Usuario no encontrado.");
                     return done(null, false);
@@ -46,7 +46,7 @@ const initializePassport = () => {
 
                 return done(null, user);
             } catch (error) {
-                return done("Error en estrategia de login: "+error);
+                return done("Error al obtener el usuario "+error);
             }
         })
     )
