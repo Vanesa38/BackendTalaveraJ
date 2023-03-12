@@ -65,7 +65,6 @@ app.engine("handlebars",handlebars.engine());
 app.set("views",__dirname+"/public/views");
 app.set("view engine","handlebars");
 app.set("/public/views");
-app.set("views", "./views");
 app.use(express.static(__dirname+"/public"));
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
@@ -79,7 +78,7 @@ app.use('/logout', sesionsRouter);
 app.use('/forgot', forgotRoutes);
 app.use(session({
   store: MongoStore.create({
-      mongoUrl:`mongodb+srv://${USER_MONGO}:${PASS_MONGO}@codercluster.cq7aous.mongodb.net/${DB_MONGO}?retryWrites=true&w=majority`,
+      mongoUrl:`mongodb+srv://${USER_MONGO}:${PASS_MONGO}@cluster0.mrgyyvo.mongodb.net/${DB_MONGO}?retryWrites=true&w=majority`,
       mongoOptions:{useNewUrlParser:true,useUnifiedTopology:true},
       ttl:15
   }),
@@ -119,7 +118,7 @@ app.use(passport.session());
 const environment = async () => {
     try {
       await mongoose.connect (
-        `mongodb+srv://${USER_MONGO}:${PASS_MONGO}@codercluster.cq7aous.mongodb.net/${DB_MONGO}?retryWrites=true&w=majority`,
+        `mongodb+srv://${USER_MONGO}:${PASS_MONGO}@cluster0.mrgyyvo.mongodb.net/${DB_MONGO}?retryWrites=true&w=majority`,
   
       );
       console.log(`Conectado a la base de datos`);
