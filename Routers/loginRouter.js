@@ -15,7 +15,9 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
     const {username, password}=req.body;
     try{
-        const response = await userModel.findOne({email:username, password:password});
+        const response = await userModel.findOne({email:username,
+        
+        });
         if(response == admin) {
         userModel.rol = "Administrador"
         res.status(200).json({message:"success", data:response})

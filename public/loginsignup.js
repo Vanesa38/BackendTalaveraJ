@@ -1,6 +1,6 @@
-const elementExists = (id) => document.getElementById(id) !== null;
+const elementExiste = (id) => document.getElementById(id) !== null;
 
-elementExists("send") &&
+elementExiste("send") &&
     document.getElementById("send").addEventListener("click", function () {
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
@@ -18,7 +18,7 @@ elementExists("send") &&
     })
         .then((response) => response.json())
         .then((data) => data.message =="success" 
-        ? (window.location.href="/api/productsDB")
+        ? (window.location.href="/products")
         : alert ("algo ha pasado")
         )
         .catch((error) => console.error(error));
@@ -30,7 +30,7 @@ document.getElementById("ingreso").addEventListener("click", function(){
 })
 
 
-elementExists("signup") &&
+elementExiste("signup") &&
     document.getElementById("signup").addEventListener("click", function () {
         const first_name= document.getElementById("first_name").value;
         const last_name= document.getElementById("last_name").value;
@@ -39,7 +39,7 @@ elementExists("signup") &&
         const age = document.getElementById("age").value;
 if(!first_name || !last_name|| !email||!password||!age){
 }else {
-    fetch("/login", {
+    fetch("/signup", {
         method: "POST",
         headers: {
         "Content-Type": "application/json",
@@ -55,7 +55,7 @@ if(!first_name || !last_name|| !email||!password||!age){
     })
         .then((response) => response.json())
         .then((data) =>
-        data.message === "logged in"
+        data.message === "Usuario creado"
         ? (window.location.href = "/login")
 
         : alert("Algo ha pasado")
