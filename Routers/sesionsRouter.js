@@ -21,6 +21,7 @@ sesionsRouter.get('/failregister', async (req, res)=>{
 })
 
 
+//login de usuarios
 sesionsRouter.post('/login', passport.authenticate('login', {failureRedirect: 'faillogin'}), (req, res)=>{
 
     if(user.length === 0){
@@ -34,7 +35,7 @@ sesionsRouter.post('/login', passport.authenticate('login', {failureRedirect: 'f
         email: req.user.email
     }
     
-    res.redirect('/api/productsDB');
+    res.redirect('/products');
 
   
     
@@ -42,18 +43,19 @@ sesionsRouter.post('/login', passport.authenticate('login', {failureRedirect: 'f
     delete user.password;
     req.session.user = user[0];
 
-    res.redirect('/api/productsDB');
+    res.redirect('/products');
 })
 
 
 
+//Login con Github
 sesionsRouter.get('/github', passport.authenticate('github', {scope:['user:email']}), (req, res)=>{})
 
 
 sesionsRouter.get('/githubcallback', passport.authenticate('github', {failureRedirect:'/login'}), (req, res)=>{
     req.session.user = req.user;
 
-    res.redirect('/api/productsDB');
+    res.redirect('/products');
 })
 
 sesionsRouter.get('/logout', (req, res)=>{

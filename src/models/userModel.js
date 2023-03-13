@@ -16,6 +16,11 @@ const userSchema = new mongoose.Schema({
         default: 'Usuario'
     },
 
+    cart:{
+        type:String,
+        ref:"cart"
+    }
+
 });
 
 const userModel = mongoose.model(userCollection, userSchema);

@@ -27,6 +27,7 @@ const initializePassport = () => {
                     age,
                 }
                 let result = await userModel.create (newUser);
+                return done(null,result);
             }
             catch (error){
                 return done ("Error al obtener el usuario" + error)
@@ -52,7 +53,7 @@ const initializePassport = () => {
     )
 
 
-
+    //login con Github
     passport.use('github', new GitHubStrategy( {
         clientID: "Iv1.3eb0e9ed20dcea8d",
         clientSecret:"84dcffe8f79213f2f3e5891c6498b26f30e64253",
