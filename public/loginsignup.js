@@ -18,7 +18,7 @@ elementExiste("send") &&
     })
         .then((response) => response.json())
         .then((data) => data.message =="success" 
-        ? (window.location.href="/products")
+        ? (window.location.href="/product")
         : alert ("algo ha pasado")
         )
         .catch((error) => console.error(error));
