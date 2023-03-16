@@ -6,16 +6,6 @@ const cartsRouter = Router();
 
 const CartsManager = new CartManager();
 
-cartsRouter.get("/", async (req, res) => {
-  try {
-    const limit = req.query.limit;
-res.send(await CartManager.getCarts(limit));
-  } catch (err) {
-    res.status(500).send(err.message);
-    const error = err.message;
-    console.log(error);
-  }
-});
 
 
 cartsRouter.get("/", async (req, res) => {
@@ -45,7 +35,7 @@ cartsRouter.post('/:cid/product/:pid', async (req, res)=>{
       let productId = req.params.pid;
       let cartId = req.params.cid;
   
-      await cartManager.update(cartId, productId);
+      await CartsManager.update(cartId, productId);
   
       res.send({status: 'success', message: "Producto cargado con exito al carrito"});
   } catch (error) {
@@ -97,7 +87,7 @@ cartsRouter.put("/:cid/products/:pid", async (req, res) => {
     const id = req.params.cid;
     const pid = req.params.pid;
     const quantity = req.body;
-    const result = await CartsManager.updateProductQuantity(id, pid, quantity);
+    const result = await CartsManager.update(id, pid, quantity);
     res.status(200).send({
       message: "Product quantity updated",
       acknowledged: result.acknowledged,
