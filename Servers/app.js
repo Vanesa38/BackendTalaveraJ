@@ -68,14 +68,8 @@ app.set("/public/views");
 app.use(express.static(__dirname+"/public"));
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
-app.use("/api/carts", cartsRouterDB);
-app.use("/product", productsRouterDB);
-app.use("/", viewsRouter);
-app.use("/login", loginRouter );
-app.use("/signup", signupRouter);
-app.use('/api/sesions/', sesionsRouter);
-app.use('/logout', sesionsRouter);
-app.use('/forgot', forgotRoutes);
+
+
 app.use(session({
   store: MongoStore.create({
       mongoUrl:`mongodb+srv://${USER_MONGO}:${PASS_MONGO}@cluster0.mrgyyvo.mongodb.net/${DB_MONGO}?retryWrites=true&w=majority`,
@@ -86,6 +80,17 @@ app.use(session({
   resave:true,
   saveUninitialized:true
 }))
+
+
+app.use("/api/carts", cartsRouterDB);
+app.use("/product", productsRouterDB);
+app.use("/", viewsRouter);
+app.use("/login", loginRouter );
+app.use("/signup", signupRouter);
+app.use('/api/sesions/', sesionsRouter);
+app.use('/logout', sesionsRouter);
+app.use('/forgot', forgotRoutes);
+
 
 initializePassport();
 app.use(passport.initialize());

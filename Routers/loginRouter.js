@@ -1,5 +1,6 @@
 import { Router } from "express";
 import userModel from "../src/models/userModel.js";
+import { isValidPassword } from "../utils.js";
 
 const admin = {
     username: "adminCoder@coder.com", 
@@ -15,19 +16,16 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
     const {username, password}=req.body;
     try{
-        const response = await userModel.findOne({email:username,
-        
-        });
-        if(response == admin) {
-        userModel.rol = "Administrador"
+        const response = await userModel.findOne({email:username});
+
+        if(response && isValidPassword(password, response.password)) {
+        req.session.user = response;
         res.status(200).json({message:"success", data:response})
     
-    } else if (response){
-        res.status(200).json({message:"success", data:response})
-     
-    }else {
+    } else {
         res.status(400).json({message:"error", data:"Usuario no encontrado"})
     }
+    
     }catch (error){
         res.status(500).json({error:error.message})
     }
