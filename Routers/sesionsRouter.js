@@ -35,7 +35,7 @@ sesionsRouter.post('/login', passport.authenticate('login', {failureRedirect: 'f
         email: req.user.email
     }
     
-    res.redirect('/products');
+    res.redirect('/product');
 
   
     
@@ -43,7 +43,7 @@ sesionsRouter.post('/login', passport.authenticate('login', {failureRedirect: 'f
     delete user.password;
     req.session.user = user[0];
 
-    res.redirect('/products');
+    res.redirect('/product');
 })
 
 
@@ -55,7 +55,7 @@ sesionsRouter.get('/github', passport.authenticate('github', {scope:['user:email
 sesionsRouter.get('/githubcallback', passport.authenticate('github', {failureRedirect:'/login'}), (req, res)=>{
     req.session.user = req.user;
 
-    res.redirect('/products');
+    res.redirect('/product');
 })
 
 sesionsRouter.get('/logout', (req, res)=>{
