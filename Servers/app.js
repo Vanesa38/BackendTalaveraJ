@@ -17,6 +17,7 @@ import MongoStore from 'connect-mongo';
 import passport from 'passport';
 import initializePassport from '../config/passportConfig.js';
 import forgotRoutes from "../Routers/forgotRoutes.js"
+import cookieParser from 'cookie-parser';
 
 
 
@@ -90,6 +91,7 @@ app.use("/signup", signupRouter);
 app.use('/api/sesions/', sesionsRouter);
 app.use('/logout', sesionsRouter);
 app.use('/forgot', forgotRoutes);
+
 
 
 initializePassport();
