@@ -1,7 +1,13 @@
 import { Router } from "express";
+import DATA from "../src/factory.js";
 import { CartManager } from "../src/Class/dataBaseManager.js";
 
+const  { CartManager }  = DATA;
+
 const CartsManager = new CartManager();
+
+export const noStockProducts = []
+
 
 
 export const cartsProducts = async (req, res) => {

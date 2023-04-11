@@ -106,3 +106,10 @@ class ProductManager {
   }
 }
 export { CartManager, ProductManager };
+
+const DATA = {
+    CartManager,
+    ProductManager,
+  };
+  
+  export default DATA;

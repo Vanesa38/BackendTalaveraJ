@@ -1,5 +1,10 @@
 import  productModel  from "../src/models/product.js"
-import { ProductManager } from "../src/Class/dataBaseManager.js"
+//import { ProductManager } from "../src/Class/dataBaseManager.js"
+import DATA from "../src/factory.js";
+
+console.log("esto trae data", DATA);
+const { ProductManager } = DATA;
+console.log(DATA);
 
 const productManager = new ProductManager();
 

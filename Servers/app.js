@@ -18,6 +18,7 @@ import passport from 'passport';
 import initializePassport from '../config/passportConfig.js';
 import forgotRoutes from "../Routers/forgotRoutes.js"
 import cookieParser from 'cookie-parser';
+import currentUser from "../Routers/sesionsRouter.js"
 
 
 
@@ -91,6 +92,7 @@ app.use("/signup", signupRouter);
 app.use('/api/sesions/', sesionsRouter);
 app.use('/logout', sesionsRouter);
 app.use('/forgot', forgotRoutes);
+app.use ("/current" , currentUser)
 
 
 
