@@ -1,6 +1,5 @@
 import DB_TYPE from "../config/config.js";
-import DatabaseManagerMongo from "./mongo/Class/dataBaseManager.js";
-import DatabaseManagerMemory from "./memory/dataBaseManager.js";
+import DatabaseManagerMongo from "./mongo/dataBaseManager.js";
 
 
 let DATA;
