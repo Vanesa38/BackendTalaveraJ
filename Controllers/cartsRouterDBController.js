@@ -1,6 +1,8 @@
 import { Router } from "express";
 import DATA from "../src/factory.js";
-import { CartManager } from "../src/Class/dataBaseManager.js";
+//import { CartManager } from "../src/Class/dataBaseManager.js";
+import productModel from "../src/models/product.js";
+import cartModel from "../src/models/cart.js";
 
 const  { CartManager }  = DATA;
 

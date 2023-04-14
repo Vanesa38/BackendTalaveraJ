@@ -1,9 +1,10 @@
-import config from "../config/config.js";
+import DB_TYPE from "../config/config.js";
 import DatabaseManagerMongo from "./mongo/Class/dataBaseManager.js";
 import DatabaseManagerMemory from "./memory/dataBaseManager.js";
 
+
 let DATA;
-switch (config) { 
+switch (DB_TYPE) { 
   case "MONGO":
     console.log("iniciara con mongo");
 

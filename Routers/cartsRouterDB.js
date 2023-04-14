@@ -6,7 +6,6 @@ import authMiddleware from "../auth.js";
 //import { CartManager } from "../src/Class/dataBaseManager.js";
 
 
-
 const cartsRouter = Router();
 
 const { CartManager } = DATA;

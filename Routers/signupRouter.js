@@ -3,6 +3,7 @@ import { renderSignup, signupUser } from "../Controllers/signupRouterController.
 import userModel from "../src/models/userModel.js";
 import { createHash } from "../utils.js";
 
+
 const router = Router();
 
 router.get("/", renderSignup);
