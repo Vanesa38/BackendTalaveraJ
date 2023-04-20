@@ -1,5 +1,5 @@
-import userModel from "../src/models/userModel.js";
-import { isValidPassword, createHash } from "../utils.js";
+import userModel from "../models/userModel.js";
+import { isValidPassword, createHash } from "../../utils.js";
 
 
 

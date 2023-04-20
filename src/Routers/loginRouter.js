@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { rendersLogin, userLogin } from "../Controllers/loginRouterController.js";
-import userModel from "../src/models/userModel.js";
-import { isValidPassword } from "../utils.js";
+import userModel from "../models/userModel.js";
+import { isValidPassword } from "../../utils.js";
 
 const admin = {
     username: "adminCoder@coder.com", 

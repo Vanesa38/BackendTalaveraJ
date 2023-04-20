@@ -1,6 +1,6 @@
 import { Router } from "express";
-import userModel from "../src/models/userModel.js";
-import { isValidPassword } from "../utils.js";
+import userModel from "../models/userModel.js";
+import { isValidPassword } from "../../utils.js";
 
 const router = Router();
 

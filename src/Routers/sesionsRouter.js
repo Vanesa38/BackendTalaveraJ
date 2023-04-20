@@ -1,5 +1,5 @@
 import { Router } from "express";
-import userDB from "../src/models/userModel.js";
+import userDB from "../models/userModel.js";
 import passport from "passport";
 import { failRegister, githubCall, githubLogin, loginUser, Logout, userSesions } from "../Controllers/sesionsRouterController.js";
 

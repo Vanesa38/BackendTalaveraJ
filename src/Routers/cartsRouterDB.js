@@ -1,9 +1,9 @@
 import { Router } from "express";
-import DATA from "../src/factory.js";
+import DATA from "../factory.js";
 import { addProducts, cartsProducts, deleteProducts, deleteSelectedProducts, newProducts, updateProducts, updateStockProducts } from "../Controllers/cartsRouterDBController.js";
-import authMiddleware from "../auth.js";
+import authMiddleware from "../../auth.js";
 
-//import { CartManager } from "../src/Class/dataBaseManager.js";
+//import { CartManager } from "../Class/dataBaseManager.js";
 
 
 const cartsRouter = Router();

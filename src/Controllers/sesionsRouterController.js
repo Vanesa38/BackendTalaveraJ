@@ -1,7 +1,7 @@
 import { Router } from "express";
-import userDB from "../src/models/userModel.js";
+import userDB from "../models/userModel.js";
 import passport from "passport";
-import userModel from "../src/models/userModel.js";
+import userModel from "../models/userModel.js";
 
 
 const sesionsRouter = Router();
@@ -61,9 +61,4 @@ export const Logout = (req, res)=>{
         res.redirect('/signup');
     });
 };
-
-
-
-
-
 

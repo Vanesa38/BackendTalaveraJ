@@ -1,8 +1,8 @@
 import { Router } from "express";
-import DATA from "../src/factory.js";
-//import { CartManager } from "../src/Class/dataBaseManager.js";
-import productModel from "../src/models/product.js";
-import cartModel from "../src/models/cart.js";
+import DATA from "../factory.js";
+//import { CartManager } from "../Class/dataBaseManager.js";
+import productModel from "../models/product.js";
+import cartModel from "../models/cart.js";
 
 const  { CartManager }  = DATA;
 
@@ -98,6 +98,4 @@ export const cartsProducts = async (req, res) => {
       console.log(error);
     }
   };
-  
-  
   

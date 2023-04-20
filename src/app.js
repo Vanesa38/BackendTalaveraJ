@@ -6,19 +6,19 @@ import fs from "fs";
 import mongoose from 'mongoose';
 import * as dotenv from "dotenv";
 import { engine } from "express-handlebars";
-import productsRouterDB from "../Routers/productsRouterDB.js";
-import cartsRouterDB from "../Routers/cartsRouterDB.js";
-import viewsRouter from "../Routers/viewsRouter.js";
-import loginRouter from "../Routers/loginRouter.js"
-import signupRouter from "../Routers/signupRouter.js"
-import sesionsRouter from "../Routers/sesionsRouter.js";
+import productsRouterDB from "./Routers/productsRouterDB.js";
+import cartsRouterDB from "./Routers/cartsRouterDB.js";
+import viewsRouter from "./Routers/viewsRouter.js";
+import loginRouter from "./Routers/loginRouter.js"
+import signupRouter from "./Routers/signupRouter.js"
+import sesionsRouter from "./Routers/sesionsRouter.js";
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import passport from 'passport';
 import initializePassport from '../config/passportConfig.js';
-import forgotRoutes from "../Routers/forgotRoutes.js"
+import forgotRoutes from "./Routers/forgotRoutes.js"
 import cookieParser from 'cookie-parser';
-import currentUser from "../Routers/sesionsRouter.js"
+import currentUser from "./Routers/sesionsRouter.js"
 
 
 

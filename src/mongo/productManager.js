@@ -86,4 +86,3 @@ const inCart = (id) => { return products.find (product =>product.title === title
     produ2.addProducts()
 
     getProducts()
-    

@@ -1,8 +1,8 @@
 import { Router } from "express";
-import  productModel  from "../src/models/product.js"
-import { ProductManager } from "../src/memory/dataBaseManager.js"
+import  productModel  from "../models/product.js"
+import { ProductManager } from "../memory/dataBaseManager.js"
 import { deleteProducts, postProducts, routeProducts, updateputProducts } from "../Controllers/productsRouterDBController.js";
-import authMiddleware from "../auth.js";
+import authMiddleware from "../../auth.js";
 
 const router = Router();
 

@@ -2,7 +2,7 @@ import express from 'express';
 const viewsRouter = express.Router();
 import fs from 'fs';
 import { getProducts, realTimeProducts } from '../Controllers/viewsRouterController.js';
-import authMiddleware from '../auth.js';
+import authMiddleware from '../../auth.js';
 
 const readFile= async () => {
 
