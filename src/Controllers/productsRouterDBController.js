@@ -1,6 +1,8 @@
 import  productModel  from "../models/product.js"
 //import { ProductManager } from "../Class/dataBaseManager.js"
 import DATA from "../factory.js";
+import CustomMistake from "../../mistakes/customMistake.js";
+import Errores from "../../mistakes/enumsError.js";
 
 console.log("esto trae data", DATA);
 const { ProductManager } = DATA;
@@ -93,6 +95,22 @@ export const routeProducts = async (req, res) => {
       !category ||
       !status
     ) {
+      
+      CustomMistake.createError({
+        name: "Error al agregar producto",
+        cause: ProductsMistakeInfo({
+          title,
+          description,
+          code,
+          price,
+          thumbnail,
+          stock,
+          category,
+          status,
+        }),
+        message:"Error al intentar agregar un nuevo producto a la DB",
+        code: Errores.TIPO_INVALIDO
+    })
       res.status(400).send({ error: "Faltan datos" });
       return;
     }
