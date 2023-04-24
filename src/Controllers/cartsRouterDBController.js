@@ -28,6 +28,7 @@ export const cartsProducts = async (req, res) => {
       console.log(response);
       res.status(200).send({ message: "Carrito creado", response });
     } catch (err) {
+      req.logger.error(`${req.method} en ${req.url}- ${new  Date().toISOString()}`)
       res.status(500).send(err.message);
     }
   };

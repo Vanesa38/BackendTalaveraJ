@@ -19,6 +19,7 @@ import initializePassport from '../config/passportConfig.js';
 import forgotRoutes from "./Routers/forgotRoutes.js"
 import cookieParser from 'cookie-parser';
 import currentUser from "./Routers/sesionsRouter.js"
+import loggerTestingRoute from "./Routers/loggerTest.js"
 
 
 
@@ -93,6 +94,7 @@ app.use('/api/sesions/', sesionsRouter);
 app.use('/logout', sesionsRouter);
 app.use('/forgot', forgotRoutes);
 app.use ("/current" , currentUser)
+app.use("/loggerTest", loggerTestingRoute)
 
 
 
