@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createMockProducts } from "../Controllers/mockRouteController";
+import { createMockProducts } from "../Controllers/mockRouterController.js";
 
 
 const Mockrouter = Router();
