@@ -1,4 +1,4 @@
-import Errores from "../mistakes/kindOfError.js";
+import Errores from "../mistakes/enumsError.js";
 
 const errorHandler = async  (error,req,res,next)=>{
     switch(error.code){

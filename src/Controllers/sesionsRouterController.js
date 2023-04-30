@@ -17,7 +17,7 @@ async (req, res)=>{
 
 export const failRegister = async (req, res)=>{ 
     console.log('Ha habido un error. Por favor intente nuevamente')
-    res.send({errro:'Falla al Registrarse'})
+    res.send('failRegister')
 };
 
 export const loginUser = passport.authenticate('login', {failureRedirect: 'faillogin'}) 
@@ -38,7 +38,8 @@ async (req, res)=>{
 
   
     
-   
+   //borrado de password
+
     delete user.password;
     req.session.user = user[0];
 

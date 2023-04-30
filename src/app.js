@@ -1,4 +1,4 @@
-import __dirname from '../utils.js';
+import __dirname from "../utils.js";
 import express from 'express'
 import handlebars from 'express-handlebars';
 import { Server } from 'socket.io';
@@ -16,11 +16,17 @@ import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import passport from 'passport';
 import initializePassport from '../config/passportConfig.js';
+import { failRegister } from './Controllers/sesionsRouterController.js';
 import forgotRoutes from "./Routers/forgotRoutes.js"
 import cookieParser from 'cookie-parser';
 import currentUser from "./Routers/sesionsRouter.js"
+import errorHandler from "../mistakes/errorsInfo.js";
 import loggerTestingRoute from "./Routers/loggerTest.js"
 import Mockrouter from "./Routers/mockingRouter.js"
+import { Faker } from '@faker-js/faker';
+import nodemailer from "nodemailer"
+import { renderReset, resetPassword } from './Controllers/forgotRoutesController.js';
+
 
 
 
@@ -65,6 +71,7 @@ socket.on("message", async (data) => {
 
 });
 
+//Express
 app.engine("handlebars",handlebars.engine());
 app.set("views",__dirname+"/public/views");
 app.set("view engine","handlebars");
@@ -72,6 +79,17 @@ app.set("/public/views");
 app.use(express.static(__dirname+"/public"));
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
+
+app.get("/faker", async (req, res) => {
+  const user = {
+    name: Faker.name.firstName(),
+    lastname: Faker.name.lastName(),
+    email: Faker.internet.email(),
+    password: Faker.internet.password(),
+  };
+
+  res.send(user);
+});
 
 
 app.use(session({
@@ -85,7 +103,12 @@ app.use(session({
   saveUninitialized:true
 }))
 
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
 
+
+//Rutas
 app.use("/api/carts", cartsRouterDB);
 app.use("/product", productsRouterDB);
 app.use("/", viewsRouter);
@@ -93,17 +116,40 @@ app.use("/login", loginRouter );
 app.use("/signup", signupRouter);
 app.use('/api/sesions/', sesionsRouter);
 app.use('/logout', sesionsRouter);
+app.use('/reset', renderReset)
+app.use("/reset/:token", resetPassword)
 app.use('/forgot', forgotRoutes);
-app.use ("/current" , currentUser)
+app.use("/failregister", failRegister)
+app.use("/current" , currentUser)
+app.use(errorHandler)
 app.use("/loggerTest", loggerTestingRoute)
 app.use("/mockingRouter", Mockrouter)
 
 
 
-initializePassport();
-app.use(passport.initialize());
-app.use(passport.session());
+//inicializar envio de mail
 
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  port:587,
+  auth:{
+    user:"vanetala32@gmail.com",
+    pass:"qfvjuramvzzdmywm"
+  }
+
+})
+
+app.get('/mail', async (req,res) =>{
+  let result = await transporter.sendMail({
+    from:'CoderHouse 37570 <coderhouse37570@gmail.com',
+    to:'vanetala32@gmail.com',
+    subject:'Prueba de Envio de Correo',
+    text:'Este es un mail de prueba',
+    html: '<h1>Esto es una prueba de envio de email</h1>'
+
+  })
+  res.send('Correo Enviado')
+})
 
 
 
