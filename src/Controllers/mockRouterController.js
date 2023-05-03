@@ -7,9 +7,13 @@ export const createMockProducts = () => {
 
     let fakeProducts = []
 
-    for (let i = 0; i<numberOfProducts; i++)
-    fakeProducts.push(createNewProduct)
+    for (let i = 0; i<numberOfProducts; i++){
+        const product = createNewProduct()
+        fakeProducts.push(product)
+    }
 
+    res.send(fakeProducts)
+    
 }
 
 export const createNewProduct = () =>{
