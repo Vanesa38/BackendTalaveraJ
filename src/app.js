@@ -26,15 +26,25 @@ import Mockrouter from "./Routers/mockingRouter.js"
 import { Faker } from '@faker-js/faker';
 import nodemailer from "nodemailer"
 import { renderReset, resetPassword } from './Controllers/forgotRoutesController.js';
+import swaggerJSDoc from "swagger-jsdoc";
+import swaggerUiExpress  from "swagger-ui-express";
 
-
-
+dotenv.config();
 
 const app = express()
 const PORT = 8080;
-dotenv.config();
+const swaggerOptions = {
+  definition: {
+    openapi:'3.0.1',
+    info: {
+      title: "Documentacion de un Ecommerce",
+      description: "API que documenta la funcion endpoints del proyecto" 
+    }
+  },
+  apis:[`${__dirname}/src/docs/**/*.yaml`],
+}
 
-
+const specs = swaggerJSDoc(swaggerOptions)
 
 const USER_MONGO = process.env.USER_MONGO;
 const PASS_MONGO = process.env.PASS_MONGO;
@@ -79,6 +89,7 @@ app.set("/public/views");
 app.use(express.static(__dirname+"/public"));
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
+app.use('/apidocs', swaggerUiExpress.serve,swaggerUiExpress.setup(specs) )
 
 app.get("/faker", async (req, res) => {
   const user = {

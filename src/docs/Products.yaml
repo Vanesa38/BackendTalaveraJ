@@ -1,0 +1,182 @@
+paths:
+  /products:
+    get:
+      summary: "Obtiene los productos"
+      tags:
+        - Products
+      responses:
+        "200":
+          description: "Los productos se obtuvieron satisfactoriamente"
+        "500":
+          description: "Error al intentar acceder a los productos"
+
+    post:
+      summary: "Agrega un producto"
+      tags:
+        - Products
+      responses:
+        "200":
+          description: "El producto se agrego con exito"
+        "500":
+          description: "Error al agregar un producto"
+
+  /products/:id:
+    put:
+      summary: "Actualiza un producto por ID"
+      tags: 
+        - Products
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: id del producto que desea solicitar
+        schema:
+          $type: string 
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#components/schemas/Products'
+      responses:
+        "200":
+          description: "El producto se actualizo con exito"
+          content:
+            application/json:
+              schema:
+                $ref: '#components/requestBodies/updateProduct'
+        "500":
+          description: "Error intentando actualizar el producto"
+
+    delete:
+      summary: "Elimina un producto por ID"
+      tags: 
+        - Products
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: id del producto que desea eliminar
+        schema:
+          $type: string 
+      responses:
+        "200":
+          description: "El producto se elimino con exito"
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/Products'
+        "500":
+          description: "Error intentando eliminar el producto"
+    
+  /products/:pid:
+    get:
+      summary: "Muestra los detalles de un producto por ID"
+      tags: 
+        - Products
+      parameters:
+      - name: pid
+        in: path
+        required: true
+        description: id del producto que desea solicitar
+        schema:
+          $type: string   
+      responses:
+        "200":
+          description: "Detalles de su Producto"
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/Products'
+        "500":
+          description: "Error intentando mostrar el producto"
+
+components:
+  schemas:
+    Products:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Id generado por Mongo
+        title:
+          type: String
+          description: Nombre del producto
+        description:
+          type: String
+          description: Descripcion del producto
+        code:
+          type: Number
+          description: Codigo del producto
+        price:
+          type: Number
+          description: Precio del producto
+        thumbnail:
+          type: String
+          description: Link a la imagen de dicho producto
+        stock:
+          type: Number
+          description: Cantidad disponible del producto
+        category:
+          type: String
+          description: Categoria a la que pertenece el producto
+        status:
+          type: Boolean
+          description: true
+      example:
+        _id: ObjectId("6418e9c05e972e34f707dccd")
+        title: MacBookPro13
+        description: Potente y veloz
+        code: 10
+        price: 500
+        thumbnail: img
+        stock: 15
+        category: Laptop
+        status: true
+
+  requestBodies:
+    updateProduct:
+      type: Object
+      properties:
+        _id:
+          type: ObjectId
+          description: Id generado por Mongo
+        title:
+          type: String
+          description: Nombre del Producto
+        description:
+          type: String
+          description: Descripcion del producto
+        code:
+          type: Number
+          description: Codigo referente al producto
+        price:
+          type: Number
+          description: Precio del Producto
+        thumbnail:
+          type: String
+          description: Link a la imagen de dicho producto
+        stock:
+          type: Number
+          description: Cantidad disponible del producto
+        category:
+          type: String
+          description: Categoria a la que pertenece el producto 
+        status:
+          type: Boolean
+          description: true
+
+      example:
+        _id: ObjectId("6418ecd85e972e34f707dcd8")
+        title: MacBookPro14
+        description: Gran almacenamiento y velocidad
+        code: 17
+        price: 600
+        thumbnail: img
+        stock: 20
+        category: Laptop
+        status: true
+        
+
+
+  
