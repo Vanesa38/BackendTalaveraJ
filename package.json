@@ -31,6 +31,7 @@
     "express-session": "^1.17.3",
     "handlebars": "^4.7.7",
     "jsonwebtoken": "^9.0.0",
+    "mocha": "^10.2.0",
     "mongo-connect": "^0.0.6",
     "mongoose": "^6.10.2",
     "mongoose-paginate-v2": "^1.7.1",
@@ -44,5 +45,9 @@
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^4.6.3",
     "winston": "^3.8.2"
+  },
+  "devDependencies": {
+    "chai": "^4.3.7",
+    "supertest": "^6.3.3"
   }
 }

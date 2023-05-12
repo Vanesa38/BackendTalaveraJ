@@ -5,16 +5,16 @@
         {{#each cart.payload}}
             <div class="row bg-danger border border-dark border-2">
                 <div class="col-3 border-end border-dark">
-                    <h4>{{this.product.title}}</h4>
+                    <h4 class="text-white">{{this.product.title}}</h4>
                 </div>
                 <div class="col-3 border-end border-dark">
-                    <h4>Cantidad: {{this.quantity}}</h4>
+                    <h4 class="text-white">Cantidad: {{this.quantity}}</h4>
                 </div>
                 <div class="col-3 border-end border-dark">
-                    <h4>Precio unit.: ${{this.product.price}}</h4>
+                    <h4 class="text-white">Precio unit.: ${{this.product.price}}</h4>
                 </div>
                 <div class="col-3 border-end border-dark">
-                    <h4>Valor total: ${{this.totalPrice}}</h4>
+                    <h4 class="text-white">Valor total: ${{this.totalPrice}}</h4>
                 </div>
             </div>
         {{/each}}

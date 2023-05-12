@@ -3,6 +3,7 @@ const premiumButton = document.getElementById('premiumButton');
 const userButton = document.getElementById('userButton');
 
 //Event listener al botón de cambiar a premium
+
 premiumButton.addEventListener('click', async () => {
   try {
     const response = await fetch(`/api/users/premium/${session.user}`, {

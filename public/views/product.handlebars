@@ -1,12 +1,12 @@
-<div id="productsContainer">
+<div id="productsContainer" style="margin: 20px;">
         <h1 class="text-white text-center">Lista de productos</h1>
         <div >
 
-            <div id="messageDiv"></div>
+            <div id="messageDiv" style="background-color: color: #bdc63c; margin: 10px auto; max-width: 600px; padding: 10px; text-align: center;"></div>
 
             {{#each product.payload.[0]}}
-                    <div>
-                        <h2 class="card-title">{{this.title}}</h2>
+                    <div style="margin: 20px; max-width: 600px; border: 1px solid #f6eded; padding: 10px; border-radius: 4px;">
+                        <h2 style="font-size: 24px; margin: 0; padding: 0;" class="card-title">{{this.title}}</h2>
                         <div class="card-body">
                             <img src="{{this.thumbnail}}">
                         </div>
@@ -14,8 +14,8 @@
                 </div>
 
                 <div>
-                <input type="number" class="productQuantity" min="1" value="1">
-                <button class="productQuantityButton">Agregar al carrito</button>
+                <input type="number" class="productQuantity" min="1" value="1" style="border: 1px solid #333; border-radius: 4px; padding: 5px; width: 80px;">
+                <button class="productQuantityButton" style="background-color: #bdc63c; color: #f8f0f0; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px; margin-left: 10px;">Agregar al carrito</button>
             </div>
 
             {{/each}}
