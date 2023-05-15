@@ -3,6 +3,7 @@ import  productModel  from "../models/product.js"
 import DATA from "../factory.js";
 import CustomMistake from "../../mistakes/customMistake.js";
 import Errores from "../../mistakes/enumsError.js";
+import { ProductsMistakeInfo } from "../../mistakes/mistakeMiddleware.js"
 
 console.log("esto trae data", DATA);
 const { ProductManager } = DATA;
@@ -111,7 +112,7 @@ export const routeProducts = async (req, res) => {
         message:"Error al intentar agregar un nuevo producto a la DB",
         code: Errores.TIPO_INVALIDO
     })
-      res.status(400).send({ error: "Faltan datos" });
+      res.status(400).send({ error: "Faltan datos" }); 
       return;
     }
   
@@ -140,6 +141,17 @@ export const routeProducts = async (req, res) => {
       const result = await productManager.delete(id);
   
       res.status(200).send({ message: "Producto eliminado", result });
+    } catch (err) {
+      res.status(500).send(err.message);
+    }
+  };
+
+  export const SpecificProduct = async (req, res) => {
+    const { id } = req.params;
+    try {
+      const response = await productManager.findById(id);
+  
+      res.render(200).send({ message: "Detalles de su Producto", response });
     } catch (err) {
       res.status(500).send(err.message);
     }

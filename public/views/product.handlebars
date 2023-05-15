@@ -1,5 +1,18 @@
+ <style>
+    nav {
+        background-color: #bdc63c;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+</style>
+
+<div style="display: flex; flex-direction: column; align-items: center;">
+
+
 <div id="productsContainer" style="margin: 20px;">
-        <h1 class="text-white text-center">Lista de productos</h1>
+        <h1 style="text-align: center; color: #3d3c3c;">Lista de productos</h1>
         <div >
 
             <div id="messageDiv" style="background-color: color: #bdc63c; margin: 10px auto; max-width: 600px; padding: 10px; text-align: center;"></div>
@@ -7,33 +20,39 @@
             {{#each product.payload.[0]}}
                     <div style="margin: 20px; max-width: 600px; border: 1px solid #f6eded; padding: 10px; border-radius: 4px;">
                         <h2 style="font-size: 24px; margin: 0; padding: 0;" class="card-title">{{this.title}}</h2>
-                        <div class="card-body">
-                            <img src="{{this.thumbnail}}">
-                        </div>
-                    </div>
-                </div>
-
-                <div>
-                <input type="number" class="productQuantity" min="1" value="1" style="border: 1px solid #333; border-radius: 4px; padding: 5px; width: 80px;">
-                <button class="productQuantityButton" style="background-color: #bdc63c; color: #f8f0f0; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px; margin-left: 10px;">Agregar al carrito</button>
+                        <div style="margin-top: 10px; display: flex; align-items: center;">      
+                        <label for="productQuantity" style="font-weight: bold; margin-right: 10px;">Cantidad:</label>
+                        <input type="number" class="productQuantity" min="1" value="1" style="border: 1px solid #3d3c3c; border-radius: 4px; padding: 5px; width: 80px;">
+                        <button class="productQuantityButton" style="background-color: #bdc63c; color: #f8f0f0; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px; margin-left: 10px;">Agregar al carrito</button>
+                        <button class="showDetailsButton" style="background-color: #bdc63c; color: #f4e7e7; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px; margin-left: 10px;">Ver detalles</button>
             </div>
+        <div class="detailsContainer" style="display: none;">
+            <h2 style="font-size: 24px; margin: 0; padding: 0;">{{this.description}}</h2>
+            <h2 style="font-size: 24px; margin: 0; padding: 0;">{{this.category}}</h2>
+            <h2 style="font-size: 24px; margin: 0; padding: 0;">Precio: ${{this.price}}</h2>
+            <h2 style="font-size: 24px; margin: 0; padding: 0;">Codigo:{{this.code}}</h2>
+           </div> 
+        </div>
 
             {{/each}}
+        </div>
         </div>
 
         {{#if products.pagination.active}}
             <nav>
-                <ul class="pagination">
+                <ul class="pagination" style="display: flex; justify-content: center; list-style: none; padding: 0; margin-top: 20px;">
                     <li class="page-item">
-                        <a class="page-link" href="{{products.pagination.prevLink}}" aria-label="Previous">
+                        <a class="page-link" href="{{products.pagination.prevLink}}" aria-label="Previous" style="color: #3d3c3c;">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
                     {{#each products.pagination.pagesLinks}}
-                        <li class="page-item"><a class="page-link{{#if active}} active {{/if}}" href="{{link}}">{{page}}</a></li>
+                        <li class="page-item">
+                            <a class="page-link{{#if active}} active {{/if}}" href="{{link}}" style="color: #3d3c3c;">{{page}}</a>
+                        </li>
                     {{/each}}
                     <li class="page-item">
-                        <a class="page-link" href="{{products.pagination.nextLink}}" aria-label="Next">
+                        <a class="page-link" href="{{products.pagination.nextLink}}" aria-label="Next" style="color: #3d3c3c;">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>
@@ -42,8 +61,9 @@
         {{/if}}
 
 
-    </div>
-    <button id="logout">Logout</button>
+</div>
+<button id="logout" style="margin-bottom: 20px; background-color: #3d3c3c; color: #f2eeee; border: none; padding: 10px 20px; border-radius: 5px; font-size: 16px; cursor: pointer;">Logout</button>
 </div>
 
 <script src="logout.js" type="application/javascript"></script>
+<script src="products.js" type="application/javascript"></script>

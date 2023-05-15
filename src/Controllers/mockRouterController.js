@@ -3,17 +3,26 @@ import {faker} from "@faker-js/faker"
 faker.locale="es"
 
 export const createMockProducts = () => {
-    let numberOfProducts = 100
 
-    let fakeProducts = []
+    try{
+        let numberOfProducts = 100
 
-    for (let i = 0; i<numberOfProducts; i++){
+        let fakeProducts = []
+
+        for (let i = 0; i<numberOfProducts; i++){
         const product = createNewProduct()
         fakeProducts.push(product)
+
+        }
+
+        res.status(200).send(fakeProducts)
+
+    
+    } catch (error){
+        res.status(404).send(error)
+
     }
 
-    res.send(fakeProducts)
-    
 }
 
 export const createNewProduct = () =>{

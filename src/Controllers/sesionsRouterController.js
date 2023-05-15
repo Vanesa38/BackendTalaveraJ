@@ -10,10 +10,23 @@ const user = new userDB();
 
 export const userSesions = passport.authenticate('signup', {failureRedirect:'/failregister'}) 
 async (req, res)=>{
-    const userToBeAdded = req.body;
-    let user = await userDB.addUser(userToBeAdded);
-    res.redirect("/login");
-};
+        const {first_name, last_name, email, password, age}=req.body;
+        try{
+        const newUser = new userModel({
+            first_name,
+            last_name,
+            email,
+            password: createHash(password),
+            age,
+            rol,
+            cart
+        })
+        await newUser.save() 
+        res.status(201).json({message:"Usuario creado", data:newUser})
+    }catch (error) {
+    res.status(500).json({error:error.message})
+    }
+    };
 
 export const failRegister = async (req, res)=>{ 
     console.log('Ha habido un error. Por favor intente nuevamente')
@@ -44,6 +57,17 @@ async (req, res)=>{
     req.session.user = user[0];
 
     res.redirect('/product');
+};
+
+export const renderUser =  async (req,res)=>{
+    if (await req.session?.user){
+        const userData = await userModel.findOne({
+            email: req.session.user.email
+        });
+        res.render("user")
+
+    }
+        
 };
 
 export const githubLogin = (passport.authenticate('github', {scope:['user:email']}), (req, res)=>{});

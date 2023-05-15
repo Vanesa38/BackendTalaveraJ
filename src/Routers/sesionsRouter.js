@@ -1,7 +1,7 @@
 import { Router } from "express";
 import userDB from "../models/userModel.js";
 import passport from "passport";
-import { failRegister, githubCall, githubLogin, loginUser, Logout, userSesions } from "../Controllers/sesionsRouterController.js";
+import { failRegister, githubCall, githubLogin, renderUser, loginUser, Logout, userSesions } from "../Controllers/sesionsRouterController.js";
 
 const sesionsRouter = Router();
 
@@ -19,6 +19,8 @@ sesionsRouter.get('/failregister', failRegister);
 //login de usuarios
 
 sesionsRouter.post('/login', loginUser);
+
+sesionsRouter.get("/", renderUser)
 
 
 

@@ -36,7 +36,6 @@ export const userForgot = async (req, res) => {
         // generacion de token
         const token = crypto.randomBytes(15).toString("hex");
 
-        // save token to database
         await PasswordResetToken.create({
             userId: user._id,
             token,
