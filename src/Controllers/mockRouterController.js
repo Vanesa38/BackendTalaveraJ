@@ -35,3 +35,4 @@ export const createNewProduct = () =>{
         status: faker.datatype.boolean(),
     }
 }
+
