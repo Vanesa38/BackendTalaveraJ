@@ -1,6 +1,8 @@
-//Verificar el rol del usuario
+//Verificar rol de usuario
 const checkRole = async (req, res, next, role) => {
-  //Obtener el rol del usuario desde una base de datos o algún otro servicio de autenticación
+
+
+//Obtener rol del usuario desde una base de datos o algún otro servicio de autenticación
   const userRole = 'admin'; 
 
   if (userRole === role) {
@@ -19,7 +21,7 @@ const restrictToRole = (role) => {
   }
 }
 
-//Middleware restrictToRole para limitar acceso a un endpoint
+
 app.get('/admin', restrictToRole('admin'), (req, res) => {
   
 });

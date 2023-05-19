@@ -67,7 +67,7 @@ export const routeProducts = async (req, res) => {
           };
         }
       );
-      res.render("product", {product:respuesta})
+      res.render("product", {product: respuesta })
     } catch (err) {
       console.log(err);
       res.send(err);
@@ -159,6 +159,7 @@ export const routeProducts = async (req, res) => {
 
   export const updateputProducts = async (req, res) => {
     const { id } = req.params;
+    console.log(id)
     const {
       title,
       description,

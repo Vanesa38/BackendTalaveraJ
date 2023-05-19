@@ -134,7 +134,7 @@ app.use("/failregister", failRegister)
 app.use("/current" , currentUser)
 app.use(errorHandler)
 app.use("/loggerTest", loggerTestingRoute)
-app.use("/mockingRouter", Mockrouter)
+app.use("/mockingProduct", Mockrouter)
 
 
 
@@ -150,8 +150,8 @@ const transporter = nodemailer.createTransport({
 
 })
 
-app.get('/mail', async (req,res) =>{
-  let result = await transporter.sendMail({
+app.get('/mail', async (req, res) =>{
+    let result = await transporter.sendMail({
     from:'CoderHouse 37570 <coderhouse37570@gmail.com',
     to:'vanetala32@gmail.com',
     subject:'Prueba de Envio de Correo',

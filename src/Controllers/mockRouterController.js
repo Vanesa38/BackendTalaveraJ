@@ -1,8 +1,20 @@
 import {faker} from "@faker-js/faker"
 
+
 faker.locale="es"
 
-export const createMockProducts = () => {
+export const createNewProduct = () =>{
+    return {
+        title: faker.commerce.productName(),
+        description: faker.commerce.productDescription(),
+        code: faker.random.alphaNumeric,
+        price:faker.random.numeric(),
+        stock:faker.random.numeric(),
+        category: faker.commerce.productAdjective(),
+    }
+}
+
+export const createMockProducts =  (req, res) => {
 
     try{
         let numberOfProducts = 100
@@ -23,16 +35,5 @@ export const createMockProducts = () => {
 
     }
 
-}
-
-export const createNewProduct = () =>{
-    return {
-        title: faker.name.title(),
-        description: faker.lorem.lines(),
-        code: faker.random.alphaNumeric(),
-        price:faker.random.numeric(),
-        stock:faker.random.numeric(1),
-        status: faker.datatype.boolean(),
-    }
 }
 
