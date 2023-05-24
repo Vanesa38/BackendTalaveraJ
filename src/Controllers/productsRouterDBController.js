@@ -36,13 +36,14 @@ export const routeProducts = async (req, res) => {
       }
     }
     try {
-      const respuesta = await productModel.paginate(
+      const respuesta = await productModel.paginate({}, {lean:true})
+      let response = respuesta.docs
         query,
         {
           page: page || 1,
           limit: limit,
           sort: { price: sort },
-        },
+        },{lean:true},
         (err, res) => {
           res.hasPrevPage
             ? (prevURL = url.replace(`page=${res.page}`, `page=${res.prevPage}`))
@@ -65,16 +66,14 @@ export const routeProducts = async (req, res) => {
             prevLink: prevURL,
             nextLink: nextURL,
           };
-        }
-      );
-      res.render("product", {product: respuesta })
+        },
+      res.render("product", { product: response })
     } catch (err) {
-      console.log(err);
       res.send(err);
     }
   };
 
-  export const postProducts = async (req, res) => {
+  export const postProducts = async (req, res) => {o
     const {
       title,
       description,
@@ -129,7 +128,6 @@ export const routeProducts = async (req, res) => {
       });
       res.status(200).send({ message: "Producto creado", response });
     } catch (err) {
-      req.logger.error(`${req.method} en ${req.url}- ${new  Date().toISOString()}`)
       res.status(500).send(err.message);
     }
   };
@@ -147,7 +145,8 @@ export const routeProducts = async (req, res) => {
   };
 
   export const SpecificProduct = async (req, res) => {
-    const { id } = req.params;
+    const { id } = req.params.pid;
+    console.log(id)
     try {
       const response = await productManager.findById(id);
   

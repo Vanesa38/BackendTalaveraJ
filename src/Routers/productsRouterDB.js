@@ -13,18 +13,18 @@ router.get("/", routeProducts);
 
 
 
-router.post("/", authMiddleware, postProducts);
+router.post("/",authMiddleware, postProducts);
 
 
 
-router.delete("/:id", authMiddleware, deleteProducts);
+router.delete("/:id",authMiddleware, deleteProducts);
 
 
 
-router.put("/:id", authMiddleware, updateputProducts);
+router.put("/:id",authMiddleware, updateputProducts);
 
 
-router.get("/product/:pid" , authMiddleware, SpecificProduct )
+router.get("/:pid" , SpecificProduct )
 
 
 export default router;
