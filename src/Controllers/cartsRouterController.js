@@ -33,6 +33,7 @@ export const productsSearch = (req, res) => {
 export const productsAdd = (req, res) => {
     const carritoId = req.params.cid;
     const productoId = req.params.pid;
+    productoId.push(carritoId)
  
 
     const productPost = 
@@ -59,7 +60,7 @@ export const productsAdd = (req, res) => {
 
 
 
-    fs.writeFileSync ('cart.JSON', JSON.stringify(cartsDb))
+    fs.writeFileSync ('./database/cart.JSON', JSON.stringify(cartsDb))
 
     
     res.send("Producto Agregado")

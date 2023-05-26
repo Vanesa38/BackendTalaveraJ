@@ -11,7 +11,7 @@ for(let btn of buttonsQuantity){
         let child = Event.target
         let father = child.parentNode
         let grand = father.parentNode
-        let selectedProductId = grand.childNodes[1].childNodes[1].innerText
+        let selectedProductId = grand.childNodes[1].childNodes[1]
 
         let item ={
             id: selectedProductId    ,
@@ -26,7 +26,7 @@ for(let btn of buttonsQuantity){
     socket.on("stockError",async(data)=>{
         let errorP = document.createElement("p")
         messageDiv.innerHTML = ""
-        errorP.innerText = " No hay stock para la cantidad solicitada"
+        errorP.innerText = "* No hay stock para la cantidad solicitada"
         messageDiv.append(errorP)
 })
 

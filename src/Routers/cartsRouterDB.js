@@ -14,23 +14,23 @@ const CartsManager = new CartManager();
 
 
 //lee los productos que hay en carrito
-cartsRouter.get("/", authMiddleware, cartsProducts);
+cartsRouter.get("/:cid", authMiddleware, cartsProducts);
 
 
 //crea un nuevo carrito
 cartsRouter.post("/", authMiddleware, newProducts);
 
 //agrega producto a carrito (metodo post)
-cartsRouter.post('/:cid/product/:pid', authMiddleware, addProducts);
+cartsRouter.post('/:cid/products/:pid', authMiddleware, addProducts);
 
 //borra el carrito completo
-cartsRouter.delete("/:id", authMiddleware, deleteProducts);
+cartsRouter.delete("/:cid", authMiddleware, deleteProducts);
 
 //borra el producto seleccionado del carrito
 cartsRouter.delete("/:cid/products/:pid", authMiddleware, deleteSelectedProducts);
 
 //actualiza productos dentro de carrito
-cartsRouter.put("/:id", authMiddleware, updateProducts);
+cartsRouter.put("/:cid", authMiddleware, updateProducts);
 
 //actualiza stock de productos dentro de carrito
 cartsRouter.put("/:cid/products/:pid", authMiddleware, updateStockProducts);

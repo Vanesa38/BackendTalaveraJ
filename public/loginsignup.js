@@ -17,15 +17,15 @@ elementExiste("send") &&
         }),
     })
         .then((response) => response.json())
-        .then((data) => data.message =="success" 
-        ? (window.location.href="/product")
-        : alert ("algo ha pasado")
+        .then((data) => data.message =="logged in"
+           ? window.location.href="/product"
+           : alert ("Algo ha pasado")
         )
         .catch((error) => console.error(error));
 });
     
 
-document.getElementById("ingreso").addEventListener("click", function(){
+    document.getElementById("ingreso").addEventListener("click", function(){
     window.location.href="/login"
 })
 
@@ -37,7 +37,11 @@ elementExiste("signup") &&
         const email= document.getElementById("email").value;
         const password= document.getElementById("password").value;
         const age = document.getElementById("age").value;
+        const rol = "user"
+        const carts =""
+
 if(!first_name || !last_name|| !email||!password||!age){
+    alert("Los campos no estan completos")
 }else {
     fetch("/signup", {
         method: "POST",
@@ -50,9 +54,12 @@ if(!first_name || !last_name|| !email||!password||!age){
            email,
            password,
            age,
+           rol,
+           carts
             
         }),
     })
+        
         .then((response) => response.json())
         .then((data) =>
         data.message === "Usuario creado"
@@ -64,3 +71,9 @@ if(!first_name || !last_name|| !email||!password||!age){
         .catch((error) => console.error(error));
 }
     });
+     
+   
+        elementExiste("ver") &&
+        document.getElementById("ver").addEventListener("click", function(){
+            window.location.href="/products"
+        })

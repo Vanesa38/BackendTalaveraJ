@@ -4,6 +4,7 @@ import { createHash } from "../../utils.js";
 import passport from "passport";
 
 const router = Router();
+const user = new userModel();
 
 export const renderSignup = async (req, res) => {
     res.render("signup", { style: "css/signup.css" });

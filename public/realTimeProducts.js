@@ -3,7 +3,7 @@ const input = document.getElementById('input')
 
 const socket = io();
 
-//Listeners
+
 input.addEventListener('keyup', (event)=>{
     let  newProductToAdd = event.target.value 
     if (event.key === "Enter" ){
@@ -14,7 +14,7 @@ input.addEventListener('keyup', (event)=>{
     }
 })
 
-//Emitter
+
 socket.on("paragraph", data =>{
     let html = data.map ( (product) => {
         return `<span>Producto: ${product.title}</span>`

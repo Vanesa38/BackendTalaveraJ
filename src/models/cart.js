@@ -16,20 +16,15 @@ const cartSchema = new mongoose.Schema(
           },
         },
       ],
-      required: true,
       default: [],
     },
-  },
-  { versionKey: false }
-);
+  
+  });
 
 cartSchema.pre("find", function () {
   this.populate("products.product");
 });
 
-cartSchema.pre("findOne", function () {
-  this.populate("products.product");
-});
 
  const cartModel = mongoose.model(cartCollection, cartSchema);
 
