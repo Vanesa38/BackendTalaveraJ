@@ -28,6 +28,7 @@ import nodemailer from "nodemailer"
 import { renderReset, resetPassword } from './Controllers/forgotRoutesController.js';
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUiExpress  from "swagger-ui-express";
+import adminRouter from "./Routers/adminRouter.js"
 
 dotenv.config();
 
@@ -135,6 +136,7 @@ app.use("/current" , currentUser)
 app.use(errorHandler)
 app.use("/loggerTest", loggerTestingRoute)
 app.use("/mockingProduct", Mockrouter)
+app.use("/", adminRouter)
 
 
 

@@ -17,7 +17,7 @@ elementExiste("send") &&
         }),
     })
         .then((response) => response.json())
-        .then((data) => data.message =="logged in"
+        .then((data) => data.message =="success"
            ? window.location.href="/product"
            : alert ("Algo ha pasado")
         )

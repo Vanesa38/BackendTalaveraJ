@@ -1,4 +1,4 @@
-import userModel from "../models/userModel";
+import userModel from "../../src/models/userModel.js";
 
 export const paginatedUsers = async (req, res) => {
     const page = req.query.page;
@@ -85,7 +85,7 @@ export const paginatedUsers = async (req, res) => {
 
 export const adminChangesRol = async (req, res) => {
     try {
-      const userId = req.body.userId || req.params.userId; // Obtener el ID del usuario de req.body o req.params según corresponda
+      const userId = req.body.userId || req.params.userId; // Obtener el ID del usuario 
   
       // Comprobar existencia del usuario
       const response = await userModel.findById(userId);

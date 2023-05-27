@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { authAdminMiddleware } from "../auth.js";
-import adminChangesRol, { paginatedUsers } from "../Controllers/adminRouteController.js";
+import { authAdminMiddleware } from "../../auth.js";
+import adminChangesRol, { paginatedUsers } from "../Controllers/adminRouterController.js";
 
 
 const adminRouter = Router();

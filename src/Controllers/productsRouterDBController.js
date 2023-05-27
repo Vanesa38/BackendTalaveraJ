@@ -19,8 +19,17 @@ export const routeProducts = async (req, res) => {
     let query;
     let prevURL;
     let nextURL;
-  
+
+    
+
+    
+
     const url = req.protocol + "://" + req.get("host") + req.originalUrl;
+    const isApi =  ()=> {
+
+    return url.includes("api")
+    }
+  
     const category = req.query.category;
     if (category != undefined || stock != undefined) {
       if (category != undefined) {
@@ -67,13 +76,16 @@ export const routeProducts = async (req, res) => {
             nextLink: nextURL,
           };
         },
-      res.render("product", { product: response })
+     isApi()? 
+     res.send( { product: response }):
+
+     res.render("product", { product: response })
     } catch (err) {
       res.send(err);
     }
   };
 
-  export const postProducts = async (req, res) => {o
+  export const postProducts = async (req, res) => {
     const {
       title,
       description,
