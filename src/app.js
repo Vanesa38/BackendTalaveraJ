@@ -47,6 +47,7 @@ const swaggerOptions = {
 
 const specs = swaggerJSDoc(swaggerOptions)
 
+//Mongo
 const USER_MONGO = process.env.USER_MONGO;
 const PASS_MONGO = process.env.PASS_MONGO;
 const DB_MONGO = process.env.DB_MONGO;
@@ -60,14 +61,15 @@ const httpServer = app.listen(PORT, () =>{
 
 const socketServer=new Server(httpServer);
 const readJson = async () =>{
-    const data = fs.readFileSync("./database/Productos.Json", "utf-8");
+    const data = await fs.readFileSync("./database/Productos.Json", "utf-8");
     const products = await JSON.parse(data);
-    return products
+    return products;
 };
 
 const writeJson = async (data) => {
 const dataToWrite = await JSON.stringify(data, null, "\t");
 await fs.writeFileSync("./database/Productos.JSON", dataToWrite);
+
 };
 
 socketServer.on('connection', (socket) =>{
@@ -205,6 +207,7 @@ const environment = async () => {
     else return false;
   };
 
+  //Middleware para datos de sesion
   app.use((req, res, next)=>{     
     res.locals.session = req.session;
     next();
