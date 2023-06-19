@@ -1,15 +1,14 @@
 import { Router } from "express";
-import { renderSignup, signupUser } from "../Controllers/signupRouterController.js";
-import userModel from "../models/userModel.js";
-import { createHash } from "../../utils.js";
+import { renderSignup } from "../Controllers/signupRouterController.js";
+
 
 
 const router = Router();
 
-router.get("/", renderSignup);
+router.get("/signup", renderSignup);
 
 
-router.post("/", signupUser);
+//router.post("/", signupUser);
 
 
 export default router;

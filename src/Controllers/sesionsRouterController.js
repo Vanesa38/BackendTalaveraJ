@@ -8,41 +8,59 @@ const sesionsRouter = Router();
 
 const user = new userDB();
 
-export const userSesions = passport.authenticate('signup', {failureRedirect:'/failregister'}) 
-async (req, res)=>{
-    const userToBeAdded = req.body;
-    let user = await userDB.addUser(userToBeAdded);
-    res.redirect("/login");
-};
+export const userSesions = async (req, res, next) => {
+    passport.authenticate('signup', { failureRedirect: '/failregister' }, async (err, user) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        if (!user) {
+            return res.status(400).json({ message: 'Failed to create user' });
+        }
+        req.logIn(user, (err) => {
+            if (err) {
+            return res.status(500).json({ error: err.message });
+            }
+            res.status(201).json({ message: 'Usuario Creado', data: user });
+        });
+        })(req, res, next);
+    };
+    
 
 export const failRegister = async (req, res)=>{ 
     console.log('Ha habido un error. Por favor intente nuevamente')
-    res.send({errro:'Falla al Registrarse'})
+    res.send('failRegister')
 };
 
-export const loginUser = passport.authenticate('login', {failureRedirect: 'faillogin'}) 
-async (req, res)=>{
+export const loginUser = async (req, res) => {
+    passport.authenticate("login", { failureRedirect: "/faillogin" }, (err, user) => {
+      if (err) {
+        return res.status(500).json({ error: err.message });
+      }
+      if (!user) {
+        return res.status(400).json({ message: "Failed to login" });
+      }
+      req.logIn(user, (err) => {
+        if (err) {
+          return res.status(500).json({ error: err.message });
+        }
+        // Se borra la password.
+        delete user.password;
+        req.session.user = user;
+        res.status(200).json({ message: "Login successful", data: user });
+      });
+    })(req, res);
+  };
 
-    if(user.length === 0){
-    return res.redirect("/signup");
-}
 
-    req.session.user = {
-        first_name: req.user.first_name,
-        last_name: req.user.last_name,
-        age: req.user.age,
-        email: req.user.email
+export const renderUser =  async (req,res)=>{
+    if (await req.session?.user){
+        const userData = await userModel.findOne({
+            email: req.session.user.email
+        });
+        res.render("user")
+
     }
-    
-    res.redirect('/product');
-
-  
-    
-   
-    delete user.password;
-    req.session.user = user[0];
-
-    res.redirect('/product');
+        
 };
 
 export const githubLogin = (passport.authenticate('github', {scope:['user:email']}), (req, res)=>{});
@@ -61,9 +79,4 @@ export const Logout = (req, res)=>{
         res.redirect('/signup');
     });
 };
-
-
-
-
-
 

@@ -1,0 +1,204 @@
+paths:
+  /:cid:
+    get:
+      summary: "Obtiene todos los productos dentro de un carrito"
+      tags: 
+        - Cart
+      parameters:
+      - name: cid
+        in: path
+        required: true
+        description: id del carrito en el cual hay que agregar el producto
+        schema:
+          $type: string   
+      responses:
+        "200":
+          description: "Los productos fueron obtenidos de manera satisfactoria"
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/Cart'
+        "500":
+          description: "Error intentando acceder al listado de productos"
+
+    delete:
+      summary: "Elimina un carrito especifico por ID"
+      tags: 
+        - Cart
+      parameters:
+      - name: cid
+        in: path
+        required: true
+        description: id del carrito que se desea eliminar
+        schema:
+          $type: string   
+      responses:
+        "200":
+          description: "El carrito se elimino con exito"
+        "500":
+          description: "Error intentando eliminar un carrito" 
+
+  /:cid/products/:pid:
+    post:
+      summary: "Agrega un producto al carrito"
+      tags: 
+        - Cart
+      parameters:
+      - name: cid
+        in: path
+        required: true
+        description: "id del carrito en el cual hay que agregar producto"
+      - name: pid
+        in: path
+        required: true
+        description: id del producto para agregar
+        schema:
+          $type: string 
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#components/requestBodies/cartProducts'
+      responses:
+        "200":
+          description: "El producto se actualizo con exito"
+        "500":
+          description: "Error intentando actualizar el producto"
+
+  /api/carts/:cid/products/:pid:
+    put:
+      summary: "Actualiza la cantidad de un producto en un carrito"
+      tags: 
+        - Cart
+      parameters:
+      - name: pid
+        in: path
+        required: true
+        description: "id del producto cuya cantidad se desea actualizar"
+      - name: cid
+        in: path
+        required: true
+        description: id del carrito a actualizar
+        schema:
+          $type: string 
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#components/requestBodies/productQuantity'
+      responses:
+        "200":
+          description: "Detalles del producto cuya cantidad va a actualizar"
+        "500":
+          description: "Error intentando mostrar el producto"
+
+    delete:
+      summary: "Elimina un producto por ID que se encuentra en un carrito especifico"
+      tags: 
+        - Cart
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: "id del producto que se desea eliminar"
+      - name: cid
+        in: path
+        required: true
+        description: id del carrito a actualizar
+      responses:
+        "200":
+          description: "El producto se elimino con exito"
+        "500":
+          description: "Error intentando eliminar el producto"   
+           
+  /api/carts/:cid:
+    put:
+      summary: "Actualiza los productos del carrito"
+      tags: 
+        - Cart
+      parameters:
+      - name: cid
+        in: path
+        required: true
+        description: id del carrito que desea actualizar
+        schema:
+          $type: string 
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#components/requestBodies/productQuantity'
+      responses:
+        "200":
+          description: "El carrito fue actualizado con exito"
+          
+        "500":
+          description: "Error intentando actualizar el carrito"
+  
+  /api/carts:
+    post:
+      summary: "Crea un nuevo carrito"
+      tags: 
+        - Cart
+      responses:
+        "200":
+          description: "El carrito se creo con exito"
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/Cart'
+        "500":
+          description: "Error intentando crear el carrito"
+
+components:
+  schemas:
+    Cart:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Id autogenerado por UUID
+        products:
+          type: String
+          description: Listado de productos en el carrito
+        quantity:
+          type: Number
+          description: Cantidad agregada del producto
+      example:
+        _id: ObjectId("6418e9c05e972e34f707dccd")
+        products: MacBookPro13
+        quantity: 15
+
+  requestBodies:
+    cartProducts:
+      type: Object
+      properties:
+        _id:
+          type: ObjectId
+          description: Id autogenerado por UUID
+        products:
+          type: String
+          description: Listado de productos en el carrito
+        quantity:
+          type: Number
+          description: Cantidad agregada del producto
+      example:
+        _id: ObjectId("6418ecd85e972e34f707dcd8")
+        products: MacBookPro14
+        quantity: 20
+    productQuantity:
+      type: Object
+      properties:
+        _id:
+          type: ObjectId
+          description: Id autogenerado por UUID
+        quantity:
+          type: Number
+          description: Cantidad agregada del producto
+      example:
+        _id: ObjectId("6418ecd85e972e34f707dcd8")
+        products: MacBookPro14
+        quantity: 20        

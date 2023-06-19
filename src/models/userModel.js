@@ -1,6 +1,12 @@
 import mongoose from "mongoose";
+import mongoosePaginate from "mongoose-paginate-v2"
 
 const userCollection = "usuarios";
+const docSchema = new mongoose.Schema({
+    
+    name: String,
+    reference: String,
+})
 
 const userSchema = new mongoose.Schema({
     first_name: String,
@@ -15,13 +21,19 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: 'Usuario'
     },
-
-    cart:{
-        type:String,
-        ref:"cart"
+    cartID:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "carts"
+    },
+    documents: [docSchema],
+    last_connection: {
+        type: Date,
+        default:  Date.now
     }
 
 });
+
+userSchema.plugin(mongoosePaginate);
 
 const userModel = mongoose.model(userCollection, userSchema);
 

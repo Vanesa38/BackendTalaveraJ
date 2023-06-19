@@ -1,6 +1,9 @@
 import  productModel  from "../models/product.js"
 //import { ProductManager } from "../Class/dataBaseManager.js"
 import DATA from "../factory.js";
+import CustomMistake from "../../mistakes/customMistake.js";
+import Errores from "../../mistakes/enumsError.js";
+import { ProductsMistakeInfo } from "../../mistakes/mistakeMiddleware.js"
 
 console.log("esto trae data", DATA);
 const { ProductManager } = DATA;
@@ -16,8 +19,17 @@ export const routeProducts = async (req, res) => {
     let query;
     let prevURL;
     let nextURL;
-  
+
+    
+
+    
+
     const url = req.protocol + "://" + req.get("host") + req.originalUrl;
+    const isApi =  ()=> {
+
+    return url.includes("api")
+    }
+  
     const category = req.query.category;
     if (category != undefined || stock != undefined) {
       if (category != undefined) {
@@ -33,13 +45,14 @@ export const routeProducts = async (req, res) => {
       }
     }
     try {
-      const respuesta = await productModel.paginate(
+      const respuesta = await productModel.paginate({}, {lean:true})
+      let response = respuesta.docs
         query,
         {
           page: page || 1,
           limit: limit,
           sort: { price: sort },
-        },
+        },{lean:true},
         (err, res) => {
           res.hasPrevPage
             ? (prevURL = url.replace(`page=${res.page}`, `page=${res.prevPage}`))
@@ -62,11 +75,12 @@ export const routeProducts = async (req, res) => {
             prevLink: prevURL,
             nextLink: nextURL,
           };
-        }
-      );
-      res.render("product", {product:respuesta})
+        },
+     isApi()? 
+     res.send( { product: response }):
+
+     res.render("product", { product: response })
     } catch (err) {
-      console.log(err);
       res.send(err);
     }
   };
@@ -93,7 +107,23 @@ export const routeProducts = async (req, res) => {
       !category ||
       !status
     ) {
-      res.status(400).send({ error: "Faltan datos" });
+      
+      CustomMistake.createError({
+        name: "Error al agregar producto",
+        cause: ProductsMistakeInfo({
+          title,
+          description,
+          code,
+          price,
+          thumbnail,
+          stock,
+          category,
+          status,
+        }),
+        message:"Error al intentar agregar un nuevo producto a la DB",
+        code: Errores.TIPO_INVALIDO
+    })
+      res.status(400).send({ error: "Faltan datos" }); 
       return;
     }
   
@@ -126,8 +156,21 @@ export const routeProducts = async (req, res) => {
     }
   };
 
+  export const SpecificProduct = async (req, res) => {
+    const { id } = req.params.pid;
+    console.log(id)
+    try {
+      const response = await productManager.findById(id);
+  
+      res.render(200).send({ message: "Detalles de su Producto", response });
+    } catch (err) {
+      res.status(500).send(err.message);
+    }
+  };
+
   export const updateputProducts = async (req, res) => {
     const { id } = req.params;
+    console.log(id)
     const {
       title,
       description,

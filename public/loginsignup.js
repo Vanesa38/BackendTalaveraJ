@@ -1,8 +1,10 @@
+
+
 const elementExiste = (id) => document.getElementById(id) !== null;
 
 elementExiste("send") &&
     document.getElementById("send").addEventListener("click", function () {
-    const username = document.getElementById("username").value;
+    const email = document.getElementById("username").value;
     const password = document.getElementById("password").value;
 
     fetch(`/login`, {
@@ -11,21 +13,28 @@ elementExiste("send") &&
             "content-type": "application/json",
         },
         body: JSON.stringify({
-
-            username,
+            email,
             password,
         }),
     })
-        .then((response) => response.json())
-        .then((data) => data.message =="success" 
-        ? (window.location.href="/product")
-        : alert ("algo ha pasado")
-        )
+        .then(response => response.json())
+        .then(data => {
+
+            console.log(data)
+        sessionStorage.setItem("cartId", data.cartID);
+            
+                console.log('Intentando redireccionar...')
+
+
+                window.location.href = "/product"
+        
+        
+        })
         .catch((error) => console.error(error));
 });
     
 
-document.getElementById("ingreso").addEventListener("click", function(){
+    document.getElementById("ingreso").addEventListener("click", function(){
     window.location.href="/login"
 })
 
@@ -37,30 +46,49 @@ elementExiste("signup") &&
         const email= document.getElementById("email").value;
         const password= document.getElementById("password").value;
         const age = document.getElementById("age").value;
-if(!first_name || !last_name|| !email||!password||!age){
-}else {
-    fetch("/signup", {
-        method: "POST",
-        headers: {
-        "Content-Type": "application/json",
-    },
-        body: JSON.stringify({
-           first_name,
-           last_name,
-           email,
-           password,
-           age,
-            
-        }),
-    })
-        .then((response) => response.json())
-        .then((data) =>
-        data.message === "Usuario creado"
-        ? (window.location.href = "/login")
+        const rol = "user"
+        const cartID =""
 
-        : alert("Algo ha pasado")
+        if(!first_name || !last_name|| !email||!password||!age){
+            alert("Los campos estan incompletos")
+        }else {
+            fetch("/signup", {
+                method: "POST",
+                headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                first_name,
+                last_name,
+                email,
+                password,
+                age,
+                rol,
+                cartID
+        
+            }),
+            })
+            .then((response) => {
+                if (!response.ok) {
+                    console.log(response)
+                    throw new Error("Network response was not ok");
+                }
+                return response.json();
+                })
+                .then((data) => {
+                    console.log (data)
+                    if (data.message === "Usuario Creado"){
+                        window.location.href = "/login"
+                    }else {
+                        alert ("Credenciales Incorrectas")
+                    }
+                }
+                
+            )}
+            });
+        
    
-      )
-        .catch((error) => console.error(error));
-}
-    });
+        elementExiste("ver") &&
+        document.getElementById("ver").addEventListener("click", function(){
+            window.location.href="/products"
+        })

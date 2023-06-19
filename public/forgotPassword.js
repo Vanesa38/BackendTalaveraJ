@@ -11,7 +11,7 @@ elementExists("forgotPassword") &&
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, password, repeatPassword }),
+        body: JSON.stringify({ username: email, password, repeatPassword }),
       })
         .then((response) => response.json())
         .then((data) => console.log(data))

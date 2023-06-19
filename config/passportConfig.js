@@ -1,6 +1,7 @@
 import passport from "passport";
 import local from "passport-local"
 import userModel from "../src/models/userModel.js";
+import cartModel from "../src/models/cart.js"
 import GitHubStrategy from "passport-github2";
 import { createHash, isValidPassword } from "../utils.js";
 import dotenv from "dotenv";
@@ -11,7 +12,7 @@ const localStrategy = local.Strategy;
 
 const initializePassport = () => {
 
-    passport.use("signup", new localStrategy(
+    passport.use('signup', new localStrategy(
         {passReqToCallback:true, usernameField:'email'}, async (req,username,password,done)=>{
             const{first_name, last_name, email,age} = req.body;
             
@@ -22,12 +23,15 @@ const initializePassport = () => {
                     return done (null,false)
                 }
 
+                const newCart = await cartModel.create({ products: [] });
+
                 const newUser = {
                     first_name,
                     last_name,
                     email,
                     password: createHash(password),
                     age,
+                    cartID: newCart._id, 
                 }
                 let result = await userModel.create (newUser);
                 return done(null,result);
@@ -38,22 +42,24 @@ const initializePassport = () => {
         }
     )
     )
-    
-    passport.use('login', new localStrategy({usernameField:'email'}, async (username, password, done)=>{
-            try {
-                const user = await userModel.findOne({email:username});
-                if(!user){
-                    console.log("Usuario no encontrado.");
-                    return done(null, false);
-                }
-                if(!isValidPassword(user, password)) return done(null, false);
-
-                return done(null, user);
-            } catch (error) {
-                return done("Error al obtener el usuario "+error);
-            }
-        })
-    )
+   //Login con Passport y Usuario + Password
+   passport.use('login', new localStrategy({ usernameField: 'email' }, async (email, password, done) => {
+    console.log(email + "passport");
+    try {
+      const user = await userModel.findOne({ email });
+      console.log(user + "this is user")
+      if (!user) {
+        console.log("Usuario no encontrado.");
+        return done(null, false);
+      }
+      if (!isValidPassword(user, password)) return done(null, false);
+  
+     
+      return done(null, user);
+    } catch (error) {
+      return done("Error en estrategia de login: " + error);
+    }
+  }));
 
 
     //login con Github

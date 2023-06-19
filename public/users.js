@@ -1,4 +1,4 @@
-import userModel from './models/userModel.js';
+/*import userModel from './models/userModel.js';
 import cartModel from './models/cart.js';
 
 class Userdb{
@@ -19,4 +19,4 @@ class Userdb{
 
 }
 
-export default Userdb;
+export default Userdb;*/

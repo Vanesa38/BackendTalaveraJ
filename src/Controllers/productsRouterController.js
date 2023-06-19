@@ -47,4 +47,3 @@ export const deleteProducts = (req, res) => {
 
     res.send("Producto Eliminado")
 };
-

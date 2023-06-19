@@ -1,22 +1,33 @@
-<div class="container-fluid bg-danger d-flex justify-content-center align-items-center" style="min-height: 100vh">
+<div class="container-fluid bg-danger d-flex justify-content-center align-items-center" style="min-height: 100vh; background-color: #e8e3e3;"">
     <div class="col-10 bg-dark opacity-75 p-3">
         <h1 class="text-white text-center">Mi Carrito {{cartId}}</h1>
         
         {{#each cart.payload}}
-            <div class="row bg-danger border border-dark border-2">
-                <div class="col-3 border-end border-dark">
-                    <h4>{{this.product.title}}</h4>
+            <div style="margin: 20px; max-width: 600px; border: 1px solid #f5efef; padding: 10px; border-radius: 4px;">
+                <h2 style="font-size: 24px; margin: 0; padding: 0;">{{this.product.title}}</h2>
+                <div style="margin-top: 10px; display: flex; align-items: center;">
                 </div>
-                <div class="col-3 border-end border-dark">
-                    <h4>Cantidad: {{this.quantity}}</h4>
+                <div style="margin-top: 10px; display: flex; align-items: center;">
+                    <h4 style="font-size: 16px; margin-right: 10px;">Cantidad: {{this.quantity}}</h4>
+                    <br>
+                    <h4 style="font-size: 16px;">Precio unit.: ${{this.product.price}}</h4>
                 </div>
-                <div class="col-3 border-end border-dark">
-                    <h4>Precio unit.: ${{this.product.price}}</h4>
+                <div style="margin-top: 10px;">
+                    <h4 style="font-size: 16px;">Valor total: ${{this.totalPrice}}</h4>
                 </div>
-                <div class="col-3 border-end border-dark">
-                    <h4>Valor total: ${{this.totalPrice}}</h4>
+                <div style="margin-top: 10px;">
+                    <button class="deleteProductButton" data-cart-id="{{cartId}}" data-product-id="{{this.product._id}}">Eliminar</button>
                 </div>
             </div>
         {{/each}}
+        {{#if message}}
+            <p class="text-white text-center" style="background-color: #f3ecec; border: 1px solid #b89797; border-radius: 4px; color: #c6c43c; margin: 10px auto; max-width: 600px; padding: 10px; text-align: center;">{{message}}</p>
+        {{/if}}
+        <div style="margin-top: 10px;">
+                <button class="vaciarCarrito" data-cart-id="{{cartId}}">Vaciar Carrito</button>
+        </div>
+        <div style="margin-top: 10px;">
+                <button class="Finalizar Compra" data-cart-id="{{cartId}}" >Finalizar Compra</button>
+        </div>
     </div>
 </div>

@@ -1,10 +1,9 @@
 import express from 'express';
-const routerProducts = express.Router();
 //const {newProdu} = require('../desafio2')
 import fs from 'fs';
 import { adProducts, deleteProducts, postProducts, returnProducts, updateProducts } from '../Controllers/productsRouterController';
 
-
+const routerProducts = express.Router();
 
 routerProducts.get("/", returnProducts);
 
