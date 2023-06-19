@@ -69,20 +69,27 @@ const initializePassport = () => {
         callbackURL: process.env.CALLBACK_URL
     } ,async (accessToken, refreshToken,profile,done) => {
         try {
-            console.log(profile)
-            let user = await userModel.findOne({email:profile._json.email})
+            
+            let email = profile._json.email;
+            let user = await userModel.findOne({email: email});
+            console.log(user);
             if (!user){
+            let newCart = await cartModel.create({ products: [] });
             let newUser = {
                 first_name:profile._json.name,
                 last_name:'',
                 email:profile._json.email,
                 password: '',
                 age:31,
+                rol: 'usuario',
+                cartID: newCart._id,
             }
-            let result = await userModel.create(newUser)
+            let result = await userModel.create(newUser);
+            console.log(newUser);
             done(null,result)
         }else {
-            done (null,user)
+            done (null,user);
+            console.log(user);
         } 
         }catch (error){
             return done ("Error en estrategia de login: "+error)

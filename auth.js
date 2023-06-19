@@ -25,7 +25,6 @@ export const checkUserPremium = async (req, res, next) => {
     }
     return res
     .status(401)
-    // otra vista para rechazar usuarios que no sean premium
 
     .redirect("/product");
 };

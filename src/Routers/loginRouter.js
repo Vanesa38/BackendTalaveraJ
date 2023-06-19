@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { rendersLogin} from "../Controllers/loginRouterController.js";
-import {loginUser} from "../Controllers/sesionsRouterController.js"
+import { rendersLogin, userLogin} from "../Controllers/loginRouterController.js";
+
 
 const admin = {
     username: "adminCoder@coder.com", 
@@ -11,8 +11,10 @@ const router = Router();
 
 router.get("/login", rendersLogin);
 
+router.get(" ", rendersLogin);
 
-//router.post("/", loginUser);
+
+router.post("/", userLogin);
 
 
 export default router;
