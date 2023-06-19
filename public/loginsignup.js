@@ -1,5 +1,3 @@
-
-
 const elementExiste = (id) => document.getElementById(id) !== null;
 
 elementExiste("send") &&
@@ -33,7 +31,7 @@ elementExiste("send") &&
         .catch((error) => console.error(error));
 });
     
-
+elementExiste("ingreso") &&
     document.getElementById("ingreso").addEventListener("click", function(){
     window.location.href="/login"
 })

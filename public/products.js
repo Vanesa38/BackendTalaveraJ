@@ -1,18 +1,16 @@
-
-
 let messageDiv = document.getElementById("messageDiv");
 
 document.addEventListener("click", function(event) {
     if (event.target.classList.contains("addToCartButton")) {
-        const selectedProductId = event.target.dataset.productId;
+        const selectedProductId = event.target.dataset.selectedProductId;
         const quantityInput = event.target.parentNode.querySelector(".productQuantity");
         const quantity = parseInt(quantityInput.value);
 
 
     // Obtengo el cartId desde sessionStorage
     const cartId = sessionStorage.getItem("cartID");
-    console.log( "Este es el valor de" + cartId)
-    console.log("producto seleccionado" + selectedProductId)
+    //console.log( "Este es el valor de" + cartId)
+    //console.log("producto seleccionado" + selectedProductId)
 
 
       // Realiza una solicitud POST al servidor para agregar el producto al carrito
@@ -49,10 +47,10 @@ document.addEventListener("click", function(event) {
     if (event.target.classList.contains("deleteProductButton")) {
         // Obtengo el cartId desde sessionStorage
         const cartId = sessionStorage.getItem("cartId");
-        const productId = event.target.dataset.productId;
+        const selectedProductId = event.target.dataset.selectedProductId;
 
         // Realiza una solicitud DELETE al servidor para eliminar el producto del carrito
-        fetch(`/api/carts/${cartId}/products/${productId}`, {
+        fetch(`/api/carts/${cartId}/product/${selectedProductId}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json"
