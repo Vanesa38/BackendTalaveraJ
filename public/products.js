@@ -9,8 +9,8 @@ document.addEventListener("click", function(event) {
 
     // Obtengo el cartId desde sessionStorage
     const cartId = sessionStorage.getItem("cartID");
-    //console.log( "Este es el valor de" + cartId)
-    //console.log("producto seleccionado" + selectedProductId)
+    console.log( "Este es el valor de" + cartId)
+    console.log("producto seleccionado" + selectedProductId)
 
 
       // Realiza una solicitud POST al servidor para agregar el producto al carrito
