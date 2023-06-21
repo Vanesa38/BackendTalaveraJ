@@ -8,7 +8,7 @@ export const productsLogic = (req, res) => {
 
     let cart = {
       id: cartsDb.length == 0 ? 1 : cartsDb.length + 1,
-      products: []
+      product: []
     }
 
     cartsDb.push(cart)

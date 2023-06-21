@@ -14,7 +14,7 @@ document.addEventListener("click", function(event) {
 
 
       // Realiza una solicitud POST al servidor para agregar el producto al carrito
-    fetch(`/api/carts/${cartId}/product/${selectedProductId}`, {
+    fetch(`/api/carts/${cartId}/product/${selectedProductId}`, {  
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -28,7 +28,7 @@ document.addEventListener("click", function(event) {
             console.log("Producto agregado con éxito");
         })
         .catch(error => {
-            console.error("Error al agregar el producto al carrito:", error);
+            console.error("Error al agregar el producto al carrito", error);
         });
     }
 });

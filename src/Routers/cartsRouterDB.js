@@ -21,7 +21,7 @@ cartsRouter.get("/:cid", authMiddleware, cartsProducts);
 cartsRouter.post("/", authMiddleware, newProducts);
 
 //agrega producto a carrito (metodo post)
-cartsRouter.post('/:cid/products/:pid',  addProducts);
+cartsRouter.post('/:cid/products/:pid',authMiddleware,  addProducts);
 
 //borra el carrito completo
 cartsRouter.delete("/:cid", authMiddleware, deleteProducts);

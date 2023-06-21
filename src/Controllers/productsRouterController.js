@@ -1,49 +1,79 @@
 import fs from 'fs';
 
+const productosDB = JSON.parse(fs.readFileSync('./database/Productos.JSON', 'utf-8'))
+
 
 export const returnProducts = (req, res) => {
-    const products = newProdu.getProducts();
     const {limit} = req.query
-    if (limit) return res.json(products.slice(0,limit))
-    else return res.json(products)
+    if (limit) return res.json(productosDB.slice(0,limit))
+    else return res.json(productosDB)
 };
 
 export const adProducts = (req, res) => {
     const {pid} = req.params
-    const products = newProdu.getProductsById(Number(pid));
+    const producto = productosDB.find((product) => product.id === pid);
 
-    if (products) return res.status(200).json(products)
-    else return res.status(404).json({message:'Product not found'});
+    res.status(200).json({
+        message: 'Producto Encontrado',
+        producto
+        })
+}
 
-};
 
 export const postProducts = (req, res) => {
 
-    const producto = req.body
-    const productNew = newProdu.addProducts(producto)
+    let producto = req.body
+    let id = producto.length > 0 ? producto[producto.length - 1].id + 1 : 1
 
-    res.json({producto})
+
+    let productoNuevo = { id, ...producto}
+    if (productoNuevo) {
+        productosDB.push(productoNuevo)
+        fs.writeFileSync('./database/Productos.JSON', JSON.stringify(productosDB))
+
+        return res.status(200).json(
+            {
+                message: 'Producto Agregado', 
+                productoNuevo
+            });        
+    }  else {
+        res.status(400).json({
+            message: 'Error'
+        });
+    }
+        
 
 };
 
 export const updateProducts = (req, res) => {
-    const productsid = req.params.pid;
+    const {pid} = req.params
    
-    const productBody = req.body
+    const body = req.body
 
-    const productUpdated = newProdu.updateProduct(productsid, productBody)
+    if(productosDB.find(product=>product.id===pid)){
+        let productDeleted = productosDB.filter(product => product.id!==pid)
+        let producto = req.body
+        let id = producto.length > 0 ? producto[producto.length - 1].id + 1 : 1  
+        let productoNuevo = { id:pid, ...producto}
+        productDeleted.push(productoNuevo);
+        this.writeFileSync(productDeleted);
+        res.send(productDeleted, "Producto Actualizado");
 
-    res.json({productUpdated})
-    
-
-};
+    }
+    else{
+        console.log('El producto no existe')
+    }
+}
 
 export const deleteProducts = (req, res) => {
-    const productsid = req.params.pid;
+    const {pid} = req.params
 
     
-    newProdu.deleteProduct(req.params.pid)
-
-
-    res.send("Producto Eliminado")
-};
+    if (pid) { 
+        productosDB = productosDB.filter (producto =>producto.id != pid )
+        this.writeFileSync(productosDB)
+        res.send ("El Producto ha sido eliminado")
+        } else {
+        res.status(404).send("El producto no existe")
+    }
+    }

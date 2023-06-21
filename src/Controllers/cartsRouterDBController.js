@@ -1,6 +1,4 @@
-import { Router } from "express";
 import DATA from "../factory.js";
-//import { CartManager } from "../Class/dataBaseManager.js";
 import productModel from "../models/product.js";
 import cartModel from "../models/cart.js";
 import userModel from "../models/userModel.js";
@@ -15,12 +13,12 @@ export const noStockProducts = []
 
 export const cartsProducts = async (req, res) => {
     try {
-      const carts = req.params.cid;
-      const user = await userModel.findOne({ cartS: carts});
+      const cartId = req.params.cid;
+      const user = await userModel.findOne({ cartID: cartId});
       console.log(user)
 
       if (user){
-        const cart = await cartModel.findOne({ cartS: carts}).lean().populate("products.product");
+        const cart = await cartModel.findOne({ cartID: cartId}).lean().populate("products.product");
 
       if (cart){
         res.status(200).send(cart);
@@ -43,20 +41,20 @@ export const cartsProducts = async (req, res) => {
       await CartsManager.create();
       res.status(200).send("Carrito creado");
     } catch (err) {
-      //req.logger.error(`${req.method} en ${req.url}- ${new  Date().toISOString()}`)
+      req.logger.error(`${req.method} en ${req.url}- ${new  Date().toISOString()}`)
       res.status(500).send(err.message);
     }
   };
 
   export const addProducts = async (req, res)=>{
 
-        const carts = req.params.cid;
-        console.log(carts);
+        const cartId = req.params.cid;
+        console.log(cartId);
         const productId = req.params.pid.trim();
         console.log(productId);
         const { quantity } = req.body;
         const productsExist = await productModel.findById(productId);
-        const cartsExist = await cartModel.findOne({ cartS: cartID });
+        const cartsExist = await cartModel.findOne({ cartID: cartId });
         console.log(cartsExist);
 
         if (!productsExist) {
@@ -88,10 +86,10 @@ export const cartsProducts = async (req, res) => {
 
   try {
     let selectedinCart = cartsExist;
-    let productsExistInCart = selectedCart.products?.find(
+    let productsExistInCart = selectedinCart.products?.find(
       (product) => product.product.toString() === productId
     );
-    console.log(productsExist);
+    console.log(productsExistInCart);
 
     if (productsExistInCart == undefined) {
       if (!selectedinCart.products) {
@@ -99,7 +97,7 @@ export const cartsProducts = async (req, res) => {
       }
       selectedinCart.products.push({ product: productId, quantity: quantity });
     } else {
-      let newQuantity = productsExistInCart.quantity + quantity;
+      let newQuantity = productsExistInCart.quantity + parseInt(quantity);
       let productIndex = selectedinCart.products.findIndex(
         (product) => product.product.toString() === productId
       );
@@ -108,7 +106,7 @@ export const cartsProducts = async (req, res) => {
 
     let result = await selectedinCart.save();
 
-    res.status(200).send({ message: "Producto agregado al carrito", selectedinCart, result });
+    res.status(200).send({ message: "Producto agregado al carrito", selectedinCart, result, cartId, productId });
   } catch (err) {
     res.status(500).send(err.message);
   }
@@ -116,10 +114,10 @@ export const cartsProducts = async (req, res) => {
 
 
   export const deleteProducts = async (req, res) => {
-    const carts = req.params.cid;
+    const cartId = req.params.cid;
     try {
       const response = await cartModel.findOneAndUpdate(
-        { cartS: carts },
+        { cartID: cartId },
         { $set: { products: [] } },
         { new: true }
       )
@@ -132,11 +130,11 @@ export const cartsProducts = async (req, res) => {
 
   export const deleteSelectedProducts = async (req, res) => {
     try {
-      const carts = req.params.cid;
+      const cartId = req.params.cid;
       const deleteProduct = req.params.pid;
 
       const response = await cartModel.findOneAndUpdate(
-        { cartS: carts },
+        { cartID: cartId },
         { $pull: { products: { product: deleteProduct } } },
         { new: true }
   
@@ -154,10 +152,10 @@ export const cartsProducts = async (req, res) => {
   
 
   export const updateProducts = async (req, res) => {
-    const { carts, updateProduct } = req.body;
+    const { cartId, updateProduct } = req.body;
     
     try {
-      const cart = await cartModel.findOne({ cartS: carts});
+      const cart = await cartModel.findOne({ cartID: cartId});
       if (!cart) {
         res.status(404).send({ message: "El carrito no existe" });
         return;
@@ -186,10 +184,10 @@ export const cartsProducts = async (req, res) => {
 
   export const updateStockProducts = async (req, res) => {
     try {
-      const carts = req.params.cid;
+      const cartId = req.params.cid;
       const productId = req.params.pid;
       const { quantity } = req.body;
-      const cart = await cartModel.findOne({ cartS: carts });
+      const cart = await cartModel.findOne({ cartID: cartId });
       if (!cart) {
         res.status(404).send({ message: "El carrito no existe" });
         return;

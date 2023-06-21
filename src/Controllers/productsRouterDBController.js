@@ -1,15 +1,24 @@
 import  productModel  from "../models/product.js"
-//import { ProductManager } from "../Class/dataBaseManager.js"
 import DATA from "../factory.js";
 import CustomMistake from "../../mistakes/customMistake.js";
 import Errores from "../../mistakes/enumsError.js";
 import { ProductsMistakeInfo } from "../../mistakes/mistakeMiddleware.js"
+import nodemailer from "nodemailer"
 
-console.log("esto trae data", DATA);
 const { ProductManager } = DATA;
 console.log(DATA);
 
 const productManager = new ProductManager();
+
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  port:587,
+  auth:{
+    user:"vanetala32@gmail.com",
+    pass:"qfvjuramvzzdmywm"
+  }
+
+})
 
 export const routeProducts = async (req, res) => {
     const stock = req.query.stock;
@@ -25,10 +34,6 @@ export const routeProducts = async (req, res) => {
     
 
     const url = req.protocol + "://" + req.get("host") + req.originalUrl;
-    const isApi =  ()=> {
-
-    return url.includes("api")
-    }
   
     const category = req.query.category;
     if (category != undefined || stock != undefined) {
@@ -76,12 +81,11 @@ export const routeProducts = async (req, res) => {
             nextLink: nextURL,
           };
         },
-     isApi()? 
-     res.send( { product: response }):
 
      res.render("product", { product: response })
     } catch (err) {
-      res.send(err);
+      req.logger.error(`${req.method} en ${req.url}- ${new  Date().toISOString()}`)
+      res.send(err, "No se pueden cargar productos");
     }
   };
 
@@ -140,36 +144,69 @@ export const routeProducts = async (req, res) => {
       });
       res.status(200).send({ message: "Producto creado", response });
     } catch (err) {
+      req.logger.error(`${req.method} en ${req.url}- ${new  Date().toISOString()}`)
       res.status(500).send(err.message);
     }
   };
 
 
   export const deleteProducts = async (req, res) => {
-    const { id } = req.params;
+    const  id  = req.params.id;
+    // Comprobación de la existencia del producto
+  const found = await productManager.findById(id);
+  if (found == null) {
+    res.status(400).send({ error: "El producto solicitado no existe" });
+    return;
+  }
+
+  if (req.session.user.rol === "Admin" || (req.session.user.rol === "Premium" && found.owner === req.session.user.email)) {
     try {
       const result = await productManager.delete(id);
+
+      // Envío de correo electrónico si es usuario Premium
+      if (req.session.user.rol === "Premium") {
+        const userEmail = req.session.user.email;
+        const message = `Estimado/a usuario/a Premium, su producto ha sido eliminado.`;
+
+      // Configuración de mensaje del correo electrónico
+      const mailOptions = {
+        from: 'adminCoder@coder.com',
+        to: userEmail,
+        subject: 'Producto eliminado',
+        text: message
+      };
+
+      // Envío de correo
+      await transporter.sendMail(mailOptions);
+    }
+
   
       res.status(200).send({ message: "Producto eliminado", result });
     } catch (err) {
+      req.logger.error(`${req.method} en ${req.url}- ${new Date().toISOString()}`);
       res.status(500).send(err.message);
     }
-  };
+  } else {
+    res.status(401).send({ status: "error", message: "Usuario sin autorización" });
+  }
+};
+
 
   export const SpecificProduct = async (req, res) => {
-    const { id } = req.params.pid;
+    const  id  = req.params.pid;
     console.log(id)
     try {
       const response = await productManager.findById(id);
   
       res.render(200).send({ message: "Detalles de su Producto", response });
     } catch (err) {
+      req.logger.error(`${req.method} en ${req.url}- ${new  Date().toISOString()}`)
       res.status(500).send(err.message);
     }
   };
 
   export const updateputProducts = async (req, res) => {
-    const { id } = req.params;
+    const  id  = req.params.id;
     console.log(id)
     const {
       title,
@@ -189,7 +226,8 @@ export const routeProducts = async (req, res) => {
       !price ||
       !thumbnail ||
       !stock ||
-      !category
+      !category||
+      !status
     ) {
       res.status(400).send({ error: "Faltan datos" });
       return;
@@ -204,7 +242,8 @@ export const routeProducts = async (req, res) => {
         stock,
         category,
         status,
-      });
+      },
+      { new: true } );
       res.status(200).send({ message: "Producto actualizado", result });
     } catch (err) {
       res.status(500).send(err.message);
